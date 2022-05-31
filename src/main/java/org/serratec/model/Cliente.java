@@ -70,4 +70,12 @@ public class Cliente {
     public void setCep(Long cep) {
         this.cep = cep;
     }
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+    
+
 }

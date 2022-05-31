@@ -35,13 +35,7 @@ public class Produto {
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
-    @ManyToMany
-    @JoinTable(name = "pedido_produto",
-    inverseJoinColumns = @JoinColumn(name = "id_pedido"),
-    joinColumns = @JoinColumn(name = "id_produto"))
-    private List<Pedido> pedidos;
-
-
+    
     public Long getId() {
         return id;
     }

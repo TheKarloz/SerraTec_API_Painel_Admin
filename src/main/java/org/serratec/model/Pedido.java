@@ -1,15 +1,17 @@
 package org.serratec.model;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import java.util.UUID;
+
+import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -28,6 +30,12 @@ public class Pedido{
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
+
+    @ManyToMany
+    @JoinTable(name = "pedido_produto",
+    inverseJoinColumns = @JoinColumn(name = "id_produto"),
+    joinColumns = @JoinColumn(name = "id_pedido"))
+    private List<Pedido> pedidos;
 
     
     public Long getId() {
