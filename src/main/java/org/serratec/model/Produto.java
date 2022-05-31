@@ -1,6 +1,7 @@
 package org.serratec.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,6 +34,13 @@ public class Produto {
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
+
+    @ManyToMany
+    @JoinTable(name = "pedido_produto",
+    inverseJoinColumns = @JoinColumn(name = "id_pedido"),
+    joinColumns = @JoinColumn(name = "id_produto"))
+    private List<Pedido> pedidos;
+
 
     public Long getId() {
         return id;
@@ -61,4 +73,5 @@ public class Produto {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
+    
 }
