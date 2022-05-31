@@ -1,33 +1,46 @@
 package org.serratec.controller;
 
+import java.net.URI;
 import java.util.List;
 
+import org.apache.catalina.connector.Response;
+import org.serratec.dto.ClienteDTO;
+import org.serratec.dto.ProdutoDTO;
+import org.serratec.dto.ProdutoInserirDTO;
 import org.serratec.model.Produto;
 import org.serratec.repository.ProdutoRepository;
+import org.serratec.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
     
     @Autowired
-    private ProdutoRepository produtoRepository;
+    private ProdutoService produtoService;
 
     @GetMapping
-    public List<Produto> listar(){
-        return produtoRepository.findAll();
+    public ResponseEntity<List<ProdutoDTO>> listarTodos(){
+        List<ProdutoDTO> produtos = produtoService.listar();
+        return ResponseEntity.ok(produtos);
     }
 
     @PostMapping
-    public Produto inserir(@RequestBody Produto produto){
-        return produtoRepository.save(produto);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Object> inserir(@RequestBody ProdutoInserirDTO produtoInserirDTO){
+        ProdutoDTO produtoDTO = produtoService.inserir(produtoInserirDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cpf}")
+                    .buildAndExpand(produtoDTO.getNome())
+                    .toUri();
+        return ResponseEntity.created(uri).body(produtoInserirDTO);
     }
-
-
-
 }
