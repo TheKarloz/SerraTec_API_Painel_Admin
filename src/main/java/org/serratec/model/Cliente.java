@@ -12,6 +12,9 @@ import javax.validation.constraints.Email;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class Cliente {
@@ -35,6 +38,7 @@ public class Cliente {
     @Column(name = "cep", nullable = false, length = 8)
     private Long cep;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos;
     

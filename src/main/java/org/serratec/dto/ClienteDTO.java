@@ -5,12 +5,15 @@ import java.util.List;
 import org.serratec.model.Cliente;
 import org.serratec.model.Pedido;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class ClienteDTO {
 
     private String nome;
     private String cpf;
     private String email;
     private Long cep;
+    
     private List<Pedido> pedidos;
     
     public ClienteDTO(){

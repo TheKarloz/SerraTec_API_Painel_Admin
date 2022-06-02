@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 
 import org.serratec.enums.EStatus;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Pedido{
     
@@ -23,6 +26,7 @@ public class Pedido{
    
     private EStatus status;
     
+    @JsonManagedReference
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
@@ -33,6 +37,7 @@ public class Pedido{
     // joinColumns = @JoinColumn(name = "id_pedido"))
     // private List<Pedido> pedidos;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "pedido")
     private List<PedidoProduto> pedidoProduto;
 

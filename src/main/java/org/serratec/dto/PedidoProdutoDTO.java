@@ -20,6 +20,10 @@ public class PedidoProdutoDTO {
         this.quantidadeProduto = pedidoProduto.getQuantidadeProduto();
     }
 
+    public PedidoProdutoDTO(){
+        
+    }
+
     public Pedido getPedido() {
         return pedido;
     }
