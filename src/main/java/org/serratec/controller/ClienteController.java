@@ -3,7 +3,6 @@ package org.serratec.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.apache.logging.log4j.message.Message;
 import org.serratec.dto.ClienteDTO;
 import org.serratec.dto.ClienteInserirDTO;
 import org.serratec.exception.CpfException;

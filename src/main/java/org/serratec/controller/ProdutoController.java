@@ -3,12 +3,8 @@ package org.serratec.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
-import org.serratec.dto.ClienteDTO;
 import org.serratec.dto.ProdutoDTO;
 import org.serratec.dto.ProdutoInserirDTO;
-import org.serratec.model.Produto;
-import org.serratec.repository.ProdutoRepository;
 import org.serratec.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

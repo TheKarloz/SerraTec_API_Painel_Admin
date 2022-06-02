@@ -1,7 +1,5 @@
 package org.serratec.model;
 
-import java.math.BigDecimal;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,9 +8,10 @@ import javax.persistence.GenerationType;
 import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.serratec.enums.EStatus;
 
 @Entity
 public class Pedido{
@@ -21,21 +20,21 @@ public class Pedido{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pedido")
     private Long numeroPedido;
-
-    @Column(name = "valor_pedido")
-    private BigDecimal valorPedido;
-    
-    private String status;
+   
+    private EStatus status;
     
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
-    @ManyToMany
-    @JoinTable(name = "pedido_produto",
-    inverseJoinColumns = @JoinColumn(name = "id_produto"),
-    joinColumns = @JoinColumn(name = "id_pedido"))
-    private List<Pedido> pedidos;
+    // @ManyToMany
+    // @JoinTable(name = "pedido_produto",
+    // inverseJoinColumns = @JoinColumn(name = "id_produto"),
+    // joinColumns = @JoinColumn(name = "id_pedido"))
+    // private List<Pedido> pedidos;
+
+    @OneToMany(mappedBy = "pedido")
+    private List<PedidoProduto> pedidoProduto;
 
     
     public Long getId() {
@@ -46,14 +45,6 @@ public class Pedido{
         this.numeroPedido = numeroPedido;
     }
 
-    public BigDecimal getValorPedido() {
-        return valorPedido;
-    }
-
-    public void setValorPedido(BigDecimal valorPedido) {
-        this.valorPedido = valorPedido;
-    }
-
     public Cliente getCliente() {
         return cliente;
     }
@@ -61,4 +52,21 @@ public class Pedido{
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
+    public Long getNumeroPedido() {
+        return numeroPedido;
+    }
+
+    public void setNumeroPedido(Long numeroPedido) {
+        this.numeroPedido = numeroPedido;
+    }
+
+    public EStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EStatus status) {
+        this.status = status;
+    }
+
 }
