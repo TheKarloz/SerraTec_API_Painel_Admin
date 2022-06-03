@@ -32,5 +32,12 @@ public class ProdutoService {
         return new ProdutoSelectDTO(produto);
     }
 
+    public Produto atualizar(Produto pedidoProduto, Long id){
+        if(produtoRepository.existsById(id)){
+            pedidoProduto.setId(id);
+            return produtoRepository.save(pedidoProduto);
+        }   
+		return null;
+    }
     
 }

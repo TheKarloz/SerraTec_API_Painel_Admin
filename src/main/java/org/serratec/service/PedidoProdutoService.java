@@ -18,9 +18,6 @@ public class PedidoProdutoService {
     @Autowired
     private PedidoProdutoRepository pedidoProdutoRepository;
 
-    @Autowired
-    private MailConfig mailConfig;
-
     public List<PedidoProdutoSelectDTO> listar(){
         List<PedidoProduto> pedidoProdutos = pedidoProdutoRepository.findAll();
         return pedidoProdutos.stream().map(pedProd -> new PedidoProdutoSelectDTO(pedProd))
@@ -34,9 +31,17 @@ public class PedidoProdutoService {
         pedidoProduto.setProduto(pedidoProdutoDTO.getProduto());
         pedidoProduto.setQuantidadeProduto(pedidoProdutoDTO.getQuantidadeProduto());
         pedidoProduto.setPercDesconto(pedidoProdutoDTO.getPercDesconto());
+        pedidoProduto = pedidoProdutoRepository.save(pedidoProduto);
         
         return new PedidoProdutoInsertDTO(pedidoProduto);
+    }
 
+    public PedidoProduto atualizar(PedidoProduto pedidoProduto, Long id){
+        if(pedidoProdutoRepository.existsById(id)){
+            pedidoProduto.setId(id);
+            return pedidoProdutoRepository.save(pedidoProduto);
+        }   
+		return null;
     }
 
 }

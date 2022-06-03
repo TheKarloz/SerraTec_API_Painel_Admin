@@ -28,4 +28,13 @@ public class PedidoService {
 
         return new PedidoSelectDTO(pedido);
     }
+
+    public Pedido atualizar(Pedido pedidoProduto, Long id){
+        if(pedidoRepository.existsById(id)){
+            pedidoProduto.setId(id);
+            return pedidoRepository.save(pedidoProduto);
+        }   
+		return null;
+    }
+
 }

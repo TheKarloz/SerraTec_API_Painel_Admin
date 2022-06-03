@@ -1,7 +1,5 @@
 package org.serratec.dto;
 
-import java.math.BigDecimal;
-
 import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
 import org.serratec.model.Produto;

@@ -23,5 +23,4 @@ public class MailConfig {
 		"\n\nAtenciosamente\nLoja de Calçados");
 		javaMailSender.send(simpleMailMessage);
 	}
-	
 }
