@@ -30,9 +30,8 @@ public class PedidoProduto {
     @ManyToOne
     @JoinColumn(name = "id_produto")
     private Produto produto;
-    
-    @Column(name = "valor_total")
-    private BigDecimal valorTotal;
+
+    private BigDecimal valorVenda;
     
     @Column(name = "quantidade_produto")
     private int quantidadeProduto;
@@ -44,11 +43,11 @@ public class PedidoProduto {
     public void setId(Long id) {
         this.id = id;
     }
-    public BigDecimal getValorTotal() {
-        return valorTotal;
+    public BigDecimal getValorVenda() {
+        return valorVenda;
     }
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
+    public void setValorVenda(BigDecimal valorVenda) {
+        this.valorVenda = valorVenda;
     }
     public int getQuantidadeProduto() {
         return quantidadeProduto;

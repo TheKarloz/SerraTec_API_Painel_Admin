@@ -1,11 +1,6 @@
 package org.serratec.dto;
 
-import java.util.List;
-
 import org.serratec.model.Cliente;
-import org.serratec.model.Pedido;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ClienteDTO {
 
@@ -14,7 +9,7 @@ public class ClienteDTO {
     private String email;
     private Long cep;
     
-    private List<Pedido> pedidos;
+    //private List<Pedido> pedidos;
     
     public ClienteDTO(){
 
@@ -25,7 +20,7 @@ public class ClienteDTO {
         this.cpf = cliente.getCpf();
         this.email = cliente.getEmail();
         this.cep = cliente.getCep();
-        this.pedidos = cliente.getPedidos();
+        //this.pedidos = cliente.getPedidos();
     }
 
     public String getNome() {
@@ -52,12 +47,12 @@ public class ClienteDTO {
     public void setCep(Long cep) {
         this.cep = cep;
     }
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }
+    // public List<Pedido> getPedidos() {
+    //     return pedidos;
+    // }
+    // public void setPedidos(List<Pedido> pedidos) {
+    //     this.pedidos = pedidos;
+    // }
 
     
 

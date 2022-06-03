@@ -1,19 +1,14 @@
 package org.serratec.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @Entity
@@ -38,9 +33,8 @@ public class Cliente {
     @Column(name = "cep", nullable = false, length = 8)
     private Long cep;
 
-    @JsonBackReference
-    @OneToMany(mappedBy = "cliente")
-    private List<Pedido> pedidos;
+    //@OneToMany(mappedBy = "cliente")
+    //private Pedido pedidos;
     
 
     public Long getId() {
@@ -73,12 +67,12 @@ public class Cliente {
     public void setCep(Long cep) {
         this.cep = cep;
     }
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
-    }
+    // public Pedido getPedidos() {
+    //     return pedidos;
+    // }
+    // public void setPedidos(Pedido pedidos) {
+    //     this.pedidos = pedidos;
+    // }
     
 
 }

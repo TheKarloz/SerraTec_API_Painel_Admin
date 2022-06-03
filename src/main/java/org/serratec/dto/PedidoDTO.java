@@ -6,13 +6,16 @@ import org.serratec.model.Pedido;
 
 public class PedidoDTO {
 
-    private EStatus status;
     private Cliente cliente;
-    
+    private EStatus status; 
 
     public PedidoDTO(Pedido pedido) {
         this.status = pedido.getStatus();
         this.cliente = pedido.getCliente();
+    }
+
+    public PedidoDTO(){
+        
     }
     
     public EStatus getStatus() {

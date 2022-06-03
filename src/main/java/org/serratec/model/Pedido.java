@@ -7,14 +7,12 @@ import javax.persistence.GenerationType;
 
 import java.util.List;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.serratec.enums.EStatus;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido{
@@ -22,13 +20,14 @@ public class Pedido{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pedido")
-    private Long numeroPedido;
+    private Long id;
    
     private EStatus status;
     
-    @JsonManagedReference
-    @ManyToOne
-    @JoinColumn(name = "id_cliente")
+    //@JsonManagedReference
+    //@ManyToOne
+    //@JoinColumn(name = "id_cliente")
+    @OneToOne
     private Cliente cliente;
 
     // @ManyToMany
@@ -43,11 +42,11 @@ public class Pedido{
 
     
     public Long getId() {
-        return numeroPedido;
+        return id;
     }
 
     public void setId(Long numeroPedido) {
-        this.numeroPedido = numeroPedido;
+        this.id = numeroPedido;
     }
 
     public Cliente getCliente() {
@@ -59,11 +58,11 @@ public class Pedido{
     }
 
     public Long getNumeroPedido() {
-        return numeroPedido;
+        return id;
     }
 
     public void setNumeroPedido(Long numeroPedido) {
-        this.numeroPedido = numeroPedido;
+        this.id = numeroPedido;
     }
 
     public EStatus getStatus() {
