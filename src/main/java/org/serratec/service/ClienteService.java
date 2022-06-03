@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.serratec.dto.ClienteSelectDTO;
+import org.serratec.config.MailConfig;
 import org.serratec.dto.ClienteInserirDTO;
 import org.serratec.exception.CpfException;
 import org.serratec.exception.EmailException;
@@ -17,6 +18,9 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private MailConfig mailConfig;
 
 
     public List<ClienteSelectDTO> listar(){
@@ -38,6 +42,8 @@ public class ClienteService {
         cliente.setEmail(clienteInserirDTO.getEmail());
         cliente.setCep(clienteInserirDTO.getCep());
         cliente = clienteRepository.save(cliente);
+        
+        mailConfig.enviarEmail(cliente.getEmail(), "Cadastro de cliente!", cliente.getNome(), cliente.toString());
 
         return new ClienteSelectDTO(cliente);
     }

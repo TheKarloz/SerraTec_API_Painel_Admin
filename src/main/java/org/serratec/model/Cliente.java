@@ -33,10 +33,14 @@ public class Cliente {
     @Column(name = "cep", nullable = false, length = 8)
     private Long cep;
 
-    //@OneToMany(mappedBy = "cliente")
-    //private Pedido pedidos;
-    
 
+    @Override
+    public String toString() {
+        return
+        "\nemail: " + email + 
+        "\nnome: " + nome ;
+    }
+    
     public Long getId() {
         return id;
     }

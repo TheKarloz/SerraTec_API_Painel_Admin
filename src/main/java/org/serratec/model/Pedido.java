@@ -24,45 +24,26 @@ public class Pedido{
    
     private EStatus status;
     
-    //@JsonManagedReference
-    //@ManyToOne
-    //@JoinColumn(name = "id_cliente")
     @OneToOne
     private Cliente cliente;
-
-    // @ManyToMany
-    // @JoinTable(name = "pedido_produto",
-    // inverseJoinColumns = @JoinColumn(name = "id_produto"),
-    // joinColumns = @JoinColumn(name = "id_pedido"))
-    // private List<Pedido> pedidos;
 
     @JsonIgnore
     @OneToMany(mappedBy = "pedido")
     private List<PedidoProduto> pedidoProduto;
 
-    
+    @Override
+    public String toString() {
+        return "Pedido: " + 
+        "Status: " + status;
+        
+    }
+
     public Long getId() {
         return id;
     }
 
-    public void setId(Long numeroPedido) {
-        this.id = numeroPedido;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Long getNumeroPedido() {
-        return id;
-    }
-
-    public void setNumeroPedido(Long numeroPedido) {
-        this.id = numeroPedido;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public EStatus getStatus() {
@@ -73,4 +54,19 @@ public class Pedido{
         this.status = status;
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public List<PedidoProduto> getPedidoProduto() {
+        return pedidoProduto;
+    }
+
+    public void setPedidoProduto(List<PedidoProduto> pedidoProduto) {
+        this.pedidoProduto = pedidoProduto;
+    }
 }

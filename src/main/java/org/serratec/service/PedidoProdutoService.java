@@ -1,8 +1,10 @@
 package org.serratec.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.serratec.config.MailConfig;
 import org.serratec.dto.PedidoProdutoInsertDTO;
 import org.serratec.dto.PedidoProdutoSelectDTO;
 import org.serratec.model.PedidoProduto;
@@ -16,9 +18,13 @@ public class PedidoProdutoService {
     @Autowired
     private PedidoProdutoRepository pedidoProdutoRepository;
 
+    @Autowired
+    private MailConfig mailConfig;
+
     public List<PedidoProdutoSelectDTO> listar(){
         List<PedidoProduto> pedidoProdutos = pedidoProdutoRepository.findAll();
-        return pedidoProdutos.stream().map(pedProd -> new PedidoProdutoSelectDTO(pedProd)).collect(Collectors.toList());
+        return pedidoProdutos.stream().map(pedProd -> new PedidoProdutoSelectDTO(pedProd))
+        .collect(Collectors.toList());
     }
 
     public PedidoProdutoInsertDTO inserir(PedidoProdutoInsertDTO pedidoProdutoDTO){
@@ -27,8 +33,8 @@ public class PedidoProdutoService {
         pedidoProduto.setPedido(pedidoProdutoDTO.getPedido());
         pedidoProduto.setProduto(pedidoProdutoDTO.getProduto());
         pedidoProduto.setQuantidadeProduto(pedidoProdutoDTO.getQuantidadeProduto());
-        pedidoProduto.setValorVenda(pedidoProdutoDTO.getValorTotal());
-        pedidoProduto = pedidoProdutoRepository.save(pedidoProduto);
+        pedidoProduto.setPercDesconto(pedidoProdutoDTO.getPercDesconto());
+        
         return new PedidoProdutoInsertDTO(pedidoProduto);
 
     }

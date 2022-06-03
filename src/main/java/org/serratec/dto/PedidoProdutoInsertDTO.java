@@ -6,18 +6,19 @@ import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
 import org.serratec.model.Produto;
 
+
 public class PedidoProdutoInsertDTO {
     
     private Pedido pedido;
     private Produto produto;
-    private BigDecimal valorTotal;
-    private int quantidadeProduto;
-    
+    private Long quantidadeProduto;
+    private double percDesconto;
+
     public PedidoProdutoInsertDTO(PedidoProduto pedidoProduto) {
         this.pedido = pedidoProduto.getPedido();
         this.produto = pedidoProduto.getProduto();
-        this.valorTotal = pedidoProduto.getValorVenda();
         this.quantidadeProduto = pedidoProduto.getQuantidadeProduto();
+        this.percDesconto = pedidoProduto.getPercDesconto();
     }
 
     public PedidoProdutoInsertDTO(){
@@ -40,16 +41,19 @@ public class PedidoProdutoInsertDTO {
         this.produto = produto;
     }
 
-    public BigDecimal getValorTotal() {
-        return valorTotal;
-    }
-    public void setValorTotal(BigDecimal valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-    public int getQuantidadeProduto() {
+    public Long getQuantidadeProduto() {
         return quantidadeProduto;
     }
-    public void setQuantidadeProduto(int quantidadeProduto) {
+
+    public void setQuantidadeProduto(Long quantidadeProduto) {
         this.quantidadeProduto = quantidadeProduto;
+    }
+
+    public double getPercDesconto() {
+        return percDesconto;
+    }
+
+    public void setPercDesconto(double percDesconto) {
+        this.percDesconto = percDesconto;
     }
 }

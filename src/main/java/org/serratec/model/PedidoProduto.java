@@ -31,29 +31,22 @@ public class PedidoProduto {
     @JoinColumn(name = "id_produto")
     private Produto produto;
 
-    private BigDecimal valorVenda;
-    
     @Column(name = "quantidade_produto")
-    private int quantidadeProduto;
+    private Long quantidadeProduto;
     
-    
+    @Column(name = "perc_desconto")
+    private double percDesconto;
+ 
+    // @Override
+    // public String toString() {
+        
+    // }
+
     public Long getId() {
         return id;
     }
     public void setId(Long id) {
         this.id = id;
-    }
-    public BigDecimal getValorVenda() {
-        return valorVenda;
-    }
-    public void setValorVenda(BigDecimal valorVenda) {
-        this.valorVenda = valorVenda;
-    }
-    public int getQuantidadeProduto() {
-        return quantidadeProduto;
-    }
-    public void setQuantidadeProduto(int quantidadeProduto) {
-        this.quantidadeProduto = quantidadeProduto;
     }
     public Pedido getPedido() {
         return pedido;
@@ -67,5 +60,18 @@ public class PedidoProduto {
     public void setProduto(Produto produto) {
         this.produto = produto;
     }
-     
+    public double getPercDesconto() {
+        return percDesconto;
+    }
+    public void setPercDesconto(double percDesconto) {
+        this.percDesconto = percDesconto;
+    }
+    public Long getQuantidadeProduto() {
+        return quantidadeProduto;
+    }
+    public void setQuantidadeProduto(Long quantidadeProduto) {
+        this.quantidadeProduto = quantidadeProduto;
+    }
+
+         
 }
