@@ -3,7 +3,7 @@ package org.serratec.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.serratec.dto.ProdutoDTO;
+import org.serratec.dto.ProdutoSelectDTO;
 import org.serratec.dto.ProdutoInserirDTO;
 import org.serratec.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +25,15 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @GetMapping
-    public ResponseEntity<List<ProdutoDTO>> listarTodos(){
-        List<ProdutoDTO> produtos = produtoService.listar();
+    public ResponseEntity<List<ProdutoSelectDTO>> listarTodos(){
+        List<ProdutoSelectDTO> produtos = produtoService.listar();
         return ResponseEntity.ok(produtos);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> inserir(@RequestBody ProdutoInserirDTO produtoInserirDTO){
-        ProdutoDTO produtoDTO = produtoService.inserir(produtoInserirDTO);
+        ProdutoSelectDTO produtoDTO = produtoService.inserir(produtoInserirDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cpf}")
                     .buildAndExpand(produtoDTO.getNome())
                     .toUri();

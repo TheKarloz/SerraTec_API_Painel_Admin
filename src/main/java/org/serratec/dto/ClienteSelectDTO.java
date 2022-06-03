@@ -2,7 +2,7 @@ package org.serratec.dto;
 
 import org.serratec.model.Cliente;
 
-public class ClienteDTO {
+public class ClienteSelectDTO {
 
     private String nome;
     private String cpf;
@@ -11,11 +11,11 @@ public class ClienteDTO {
     
     //private List<Pedido> pedidos;
     
-    public ClienteDTO(){
+    public ClienteSelectDTO(){
 
     }
 
-    public ClienteDTO(Cliente cliente){
+    public ClienteSelectDTO(Cliente cliente){
         this.nome = cliente.getNome();
         this.cpf = cliente.getCpf();
         this.email = cliente.getEmail();

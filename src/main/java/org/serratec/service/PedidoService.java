@@ -1,6 +1,6 @@
 package org.serratec.service;
 
-import org.serratec.dto.PedidoDTO;
+import org.serratec.dto.PedidoSelectDTO;
 import org.serratec.model.Pedido;
 import org.serratec.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +15,17 @@ public class PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
-    public List<PedidoDTO> listar(){
+    public List<PedidoSelectDTO> listar(){
         List<Pedido> pedidos = pedidoRepository.findAll();
-        return pedidos.stream().map(ped -> new PedidoDTO(ped)).collect(Collectors.toList());
+        return pedidos.stream().map(ped -> new PedidoSelectDTO(ped)).collect(Collectors.toList());
     }
 
-    public PedidoDTO inserir(PedidoDTO pedidoDTO){
+    public PedidoSelectDTO inserir(PedidoSelectDTO pedidoDTO){
         Pedido pedido = new Pedido();
         pedido.setCliente(pedidoDTO.getCliente());
         pedido.setStatus(pedidoDTO.getStatus());
         pedido = pedidoRepository.save(pedido);
 
-        return new PedidoDTO(pedido);
+        return new PedidoSelectDTO(pedido);
     }
 }

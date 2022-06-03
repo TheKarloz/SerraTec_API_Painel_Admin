@@ -4,20 +4,30 @@ import org.serratec.enums.EStatus;
 import org.serratec.model.Cliente;
 import org.serratec.model.Pedido;
 
-public class PedidoDTO {
+public class PedidoSelectDTO {
 
+    private Long id;
     private Cliente cliente;
     private EStatus status; 
 
-    public PedidoDTO(Pedido pedido) {
+    public PedidoSelectDTO(Pedido pedido) {
+        this.id = pedido.getId();
         this.status = pedido.getStatus();
         this.cliente = pedido.getCliente();
     }
 
-    public PedidoDTO(){
+    public PedidoSelectDTO(){
         
     }
-    
+ 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public EStatus getStatus() {
         return status;
     }

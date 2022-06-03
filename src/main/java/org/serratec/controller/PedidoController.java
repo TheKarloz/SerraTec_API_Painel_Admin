@@ -3,7 +3,7 @@ package org.serratec.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.serratec.dto.PedidoDTO;
+import org.serratec.dto.PedidoSelectDTO;
 import org.serratec.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +22,14 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping
-    public ResponseEntity<List<PedidoDTO>> listar(){
-        List<PedidoDTO> pedidoDTOs = pedidoService.listar();
+    public ResponseEntity<List<PedidoSelectDTO>> listar(){
+        List<PedidoSelectDTO> pedidoDTOs = pedidoService.listar();
         return ResponseEntity.ok(pedidoDTOs);
     }
 
     @PostMapping
-    public ResponseEntity<Object> inserir(@RequestBody PedidoDTO pedidoDTO){
-        PedidoDTO pedDTO = pedidoService.inserir(pedidoDTO);
+    public ResponseEntity<Object> inserir(@RequestBody PedidoSelectDTO pedidoDTO){
+        PedidoSelectDTO pedDTO = pedidoService.inserir(pedidoDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                     .buildAndExpand(pedDTO.getCliente())
                     .toUri();

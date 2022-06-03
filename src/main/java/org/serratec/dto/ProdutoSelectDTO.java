@@ -5,14 +5,14 @@ import java.math.BigDecimal;
 import org.serratec.model.Categoria;
 import org.serratec.model.Produto;
 
-public class ProdutoDTO {
+public class ProdutoSelectDTO {
     
     private Long id;
     private String nome;
     private BigDecimal valorUnitario;
     private Categoria categoria;
     
-    public ProdutoDTO(Produto produto){
+    public ProdutoSelectDTO(Produto produto){
         this.id = produto.getId();
         this.nome = produto.getNome();
         this.valorUnitario = produto.getValorUnitario();

@@ -2,9 +2,7 @@ package org.serratec.controller;
 
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.serratec.model.Categoria;
-import org.serratec.repository.CategoriaRepository;
 import org.serratec.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -3,7 +3,7 @@ package org.serratec.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.serratec.dto.ClienteDTO;
+import org.serratec.dto.ClienteSelectDTO;
 import org.serratec.dto.ClienteInserirDTO;
 import org.serratec.exception.CpfException;
 import org.serratec.exception.EmailException;
@@ -27,8 +27,8 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping
-    public ResponseEntity<List<ClienteDTO>> listarTodos(){
-        List<ClienteDTO> clientes = clienteService.listar();
+    public ResponseEntity<List<ClienteSelectDTO>> listarTodos(){
+        List<ClienteSelectDTO> clientes = clienteService.listar();
         return ResponseEntity.ok(clientes);
     }
 
@@ -36,7 +36,7 @@ public class ClienteController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> inserir(@RequestBody ClienteInserirDTO clienteInserirDTO){
         try {
-            ClienteDTO clienteDTO = clienteService.inserir(clienteInserirDTO);
+            ClienteSelectDTO clienteDTO = clienteService.inserir(clienteInserirDTO);
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cpf}")
                         .buildAndExpand(clienteDTO.getCpf())
                         .toUri();

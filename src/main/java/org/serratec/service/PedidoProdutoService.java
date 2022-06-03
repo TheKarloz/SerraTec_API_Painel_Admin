@@ -5,12 +5,8 @@ import java.util.stream.Collectors;
 
 import org.serratec.dto.PedidoProdutoInsertDTO;
 import org.serratec.dto.PedidoProdutoSelectDTO;
-import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
-import org.serratec.model.Produto;
 import org.serratec.repository.PedidoProdutoRepository;
-import org.serratec.repository.PedidoRepository;
-import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

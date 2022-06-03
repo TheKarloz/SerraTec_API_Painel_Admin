@@ -3,11 +3,9 @@ package org.serratec.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.serratec.dto.PedidoDTO;
 import org.serratec.dto.PedidoProdutoInsertDTO;
 import org.serratec.dto.PedidoProdutoSelectDTO;
 import org.serratec.service.PedidoProdutoService;
-import org.serratec.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/api/pedidos")
+@RequestMapping("/pedidos_itens")
 public class PedidoProdutoController {
-
-    @Autowired
-    private PedidoService pedidoService;
 
     @Autowired
     private PedidoProdutoService pedidoProdutoService;

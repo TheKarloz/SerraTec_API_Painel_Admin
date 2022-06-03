@@ -3,7 +3,7 @@ package org.serratec.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.serratec.dto.ClienteDTO;
+import org.serratec.dto.ClienteSelectDTO;
 import org.serratec.dto.ClienteInserirDTO;
 import org.serratec.exception.CpfException;
 import org.serratec.exception.EmailException;
@@ -19,12 +19,12 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
 
-    public List<ClienteDTO> listar(){
+    public List<ClienteSelectDTO> listar(){
         List<Cliente> clientes = clienteRepository.findAll();
-        return clientes.stream().map(cliente -> new ClienteDTO(cliente)).collect(Collectors.toList());
+        return clientes.stream().map(cliente -> new ClienteSelectDTO(cliente)).collect(Collectors.toList());
     }
 
-    public ClienteDTO inserir(ClienteInserirDTO clienteInserirDTO) throws EmailException, CpfException{
+    public ClienteSelectDTO inserir(ClienteInserirDTO clienteInserirDTO) throws EmailException, CpfException{
         if(clienteRepository.findByEmail(clienteInserirDTO.getEmail()) != null){
             throw new EmailException("Email já cadastrado!");
         }
@@ -39,7 +39,7 @@ public class ClienteService {
         cliente.setCep(clienteInserirDTO.getCep());
         cliente = clienteRepository.save(cliente);
 
-        return new ClienteDTO(cliente);
+        return new ClienteSelectDTO(cliente);
     }
     
 }
