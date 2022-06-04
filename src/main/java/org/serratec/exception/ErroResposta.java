@@ -5,24 +5,26 @@ import java.util.List;
 
 public class ErroResposta {
 
-    private Integer Status;
+    private Integer status;
     private String titulo;
     private LocalDateTime dataHora;
     private List<String> errors;
       
     public ErroResposta(Integer status, String titulo, LocalDateTime dataHora, List<String> errors) {
-        Status = status;
+        this.status = status;
         this.titulo = titulo;
         this.dataHora = dataHora;
         this.errors = errors;
     }
     
+    
     public Integer getStatus() {
-        return Status;
+        return status;
     }
     public void setStatus(Integer status) {
-        Status = status;
+        this.status = status;
     }
+
     public String getTitulo() {
         return titulo;
     }

@@ -39,6 +39,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler{
 
     } 
 
+
     @ExceptionHandler(EmailException.class)
     public ResponseEntity<Object> handleEmailException(EmailException ex){
         EmailException emailException = new EmailException(ex.getMessage());

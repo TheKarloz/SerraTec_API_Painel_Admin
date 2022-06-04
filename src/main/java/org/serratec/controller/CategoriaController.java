@@ -30,7 +30,7 @@ public class CategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> inserir(@Valid @RequestBody Categoria categoria){
+    public ResponseEntity<Categoria> inserir(@RequestBody Categoria categoria){
         categoria = categoriaService.inserir(categoria);
         return ResponseEntity.ok().body(categoria);
     }

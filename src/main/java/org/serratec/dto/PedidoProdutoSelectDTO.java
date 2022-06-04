@@ -1,6 +1,8 @@
 package org.serratec.dto;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
@@ -28,7 +30,7 @@ public class PedidoProdutoSelectDTO{
        
         this.valorVenda = (valorTotal).multiply(BigDecimal.valueOf(1 - pedidoProduto.getPercDesconto()/100));
         
-        return valorVenda;
+        return valorVenda.round(new MathContext(4, RoundingMode.HALF_UP));
     }
 
     public Pedido getPedido() {
