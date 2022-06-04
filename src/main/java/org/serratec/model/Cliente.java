@@ -5,11 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 
 import org.hibernate.validator.constraints.br.CPF;
-
-
 
 @Entity
 public class Cliente {
@@ -30,8 +30,9 @@ public class Cliente {
     @Column(name = "email", nullable = false)
     private String email;
     
-    @Column(name = "cep", nullable = false, length = 8)
-    private Long cep;
+    @ManyToOne
+    @JoinColumn(name = "id_endereco")
+    private Endereco endereco;
 
 
     @Override
@@ -65,12 +66,15 @@ public class Cliente {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Long getCep() {
-        return cep;
+
+    public Endereco getEndereco() {
+        return endereco;
     }
-    public void setCep(Long cep) {
-        this.cep = cep;
-    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }  
+    
     // public Pedido getPedidos() {
     //     return pedidos;
     // }

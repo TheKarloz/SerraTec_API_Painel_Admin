@@ -2,7 +2,6 @@ package org.serratec.service;
 
 import java.util.List;
 
-import org.serratec.exception.EmailException;
 import org.serratec.model.Categoria;
 import org.serratec.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;

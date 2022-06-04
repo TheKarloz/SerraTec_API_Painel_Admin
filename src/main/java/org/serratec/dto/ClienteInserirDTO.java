@@ -1,13 +1,14 @@
 package org.serratec.dto;
 
 import org.serratec.model.Cliente;
+import org.serratec.model.Endereco;
 
 public class ClienteInserirDTO {
     
     private String nome;
     private String cpf;
     private String email;
-    private Long cep;
+    private Endereco endereco;
     
     public ClienteInserirDTO(){
 
@@ -17,7 +18,7 @@ public class ClienteInserirDTO {
         this.nome = cliente.getNome();
         this.cpf = cliente.getCpf();
         this.email = cliente.getEmail();
-        this.cep = cliente.getCep();
+        this.endereco = cliente.getEndereco();
     }
 
     public String getNome() {
@@ -38,10 +39,11 @@ public class ClienteInserirDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Long getCep() {
-        return cep;
+    public Endereco getEndereco() {
+        return endereco;
     }
-    public void setCep(Long cep) {
-        this.cep = cep;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
+    
 }

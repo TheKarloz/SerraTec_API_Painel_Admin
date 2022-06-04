@@ -11,7 +11,6 @@ import org.serratec.exception.EmailException;
 import org.serratec.model.Cliente;
 import org.serratec.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties.ClientType;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,7 +40,7 @@ public class ClienteService {
         cliente.setNome(clienteInserirDTO.getNome());
         cliente.setCpf(clienteInserirDTO.getCpf());
         cliente.setEmail(clienteInserirDTO.getEmail());
-        cliente.setCep(clienteInserirDTO.getCep());
+        cliente.setEndereco(clienteInserirDTO.getEndereco());
         cliente = clienteRepository.save(cliente);
         
         mailConfig.enviarEmail(cliente.getEmail(), "Cadastro de cliente!", cliente.getNome(), cliente.toString());
@@ -51,7 +50,6 @@ public class ClienteService {
 
     public Cliente atualizar(Cliente cliente, Long id) throws EmailException, CpfException{
         if(clienteRepository.existsById(id)){
-            //clienteRepository.delete(cliente);
             cliente.setId(id);
             clienteRepository.save(cliente);
         }       

@@ -1,10 +1,8 @@
 package org.serratec.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.serratec.config.MailConfig;
 import org.serratec.dto.PedidoProdutoInsertDTO;
 import org.serratec.dto.PedidoProdutoSelectDTO;
 import org.serratec.model.PedidoProduto;
