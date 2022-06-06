@@ -19,11 +19,11 @@ public class Cliente {
     @Column(name = "id_cliente")
     private Long id;
 
-    @Column(name = "nome_cliente", nullable = false)
+    @Column(name = "nome_cliente", nullable = false, length = 40)
     private String nome;
     
     @CPF(message = "CPF Inválido")
-    @Column(name = "cpf", nullable = false)
+    @Column(name = "cpf", nullable = false, length = 11)
     private String cpf;
     
     @Email(message = "E-mail inválido")

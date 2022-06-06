@@ -3,6 +3,8 @@ package org.serratec.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.serratec.dto.ProdutoSelectDTO;
 import org.serratec.model.Produto;
 import org.serratec.dto.ProdutoInserirDTO;
@@ -35,7 +37,7 @@ public class ProdutoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> inserir(@RequestBody ProdutoInserirDTO produtoInserirDTO){
+    public ResponseEntity<Object> inserir(@Valid @RequestBody ProdutoInserirDTO produtoInserirDTO){
         ProdutoSelectDTO produtoDTO = produtoService.inserir(produtoInserirDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cpf}")
                     .buildAndExpand(produtoDTO.getNome())
@@ -45,7 +47,7 @@ public class ProdutoController {
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Object> atualizar(@RequestBody Produto produto, @PathVariable Long id){
+    public ResponseEntity<Object> atualizar(@Valid @RequestBody Produto produto, @PathVariable Long id){
             produto = produtoService.atualizar(produto, id);
             return ResponseEntity.ok().body(produto);
     }

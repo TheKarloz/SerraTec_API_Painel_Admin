@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "produto")
@@ -22,9 +25,12 @@ public class Produto {
     @Column(name = "id_produto")
     private Long id;
     
-    @Column(name = "nome_produto")
+    @NotBlank
+    @Column(name = "nome_produto", length = 40, nullable = false)
     private String nome;
     
+    @DecimalMin(value = "0.0")
+    @Digits(integer=18, fraction=2)
     @Column(name = "valor_unitario")
     private BigDecimal valorUnitario;
  

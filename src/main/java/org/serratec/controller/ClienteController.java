@@ -48,23 +48,22 @@ public class ClienteController {
             return ResponseEntity.created(uri).body(clienteInserirDTO);
 
         } catch (EmailException e){
-            return ResponseEntity.unprocessableEntity().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (CpfException e){
-            return ResponseEntity.unprocessableEntity().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
     @PutMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Object> atualizar(@RequestBody Cliente cliente, @PathVariable Long id){
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> atualizar(@RequestBody Cliente cliente, @PathVariable Long id) {
         try{
             cliente = clienteService.atualizar(cliente, id);
             return ResponseEntity.ok().body(cliente);
         }catch (EmailException e){
-             return ResponseEntity.unprocessableEntity().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (CpfException e){
-            return ResponseEntity.unprocessableEntity().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
 }

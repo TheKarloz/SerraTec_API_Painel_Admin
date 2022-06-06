@@ -1,8 +1,10 @@
 package org.serratec.exception;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,18 +19,24 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler{
-
+  
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
     HttpHeaders headers, HttpStatus status, WebRequest request){
+       
+        LocalDateTime data = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.UK);
+        String dataFormatada = data.format(formatter);
+
         List<String> errors = new ArrayList<String>();
         for(FieldError error : ex.getBindingResult().getFieldErrors()){
             errors.add(error.getField() + ": " + error.getDefaultMessage());
-        } 
-        ErroResposta erroResposta = new ErroResposta(status.value(), 
-        "Existem campos inválidos", 
-        LocalDateTime.now(), errors);
+        }
 
+        ErroResposta erroResposta = new ErroResposta(status.value(),
+        "Existem campos inválidos", 
+        dataFormatada,errors);
+        
         return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
     }
 
@@ -39,17 +47,23 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler{
 
     } 
 
-
     @ExceptionHandler(EmailException.class)
-    public ResponseEntity<Object> handleEmailException(EmailException ex){
+    protected ResponseEntity<Object> handleEmailException(EmailException ex){
         EmailException emailException = new EmailException(ex.getMessage());
         return ResponseEntity.unprocessableEntity().body(emailException);
     }
 
     @ExceptionHandler(CpfException.class)
-    public ResponseEntity<Object> handleCpfException(CpfException ex){
+    protected ResponseEntity<Object> handleCpfException(CpfException ex){
         CpfException cpfException = new CpfException(ex.getMessage());
         return ResponseEntity.unprocessableEntity().body(cpfException);
     }
+
+    @ExceptionHandler(CategoriaException.class)
+    protected ResponseEntity<Object> handleCategoriaException(CategoriaException ex){
+        CategoriaException categoriaException = new CategoriaException(ex.getMessage());
+        return ResponseEntity.unprocessableEntity().body(categoriaException);
+    }
+
 }
     

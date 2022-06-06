@@ -44,7 +44,7 @@ public class PedidoProdutoController {
     }
 
     @PutMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> atualizar(@RequestBody PedidoProduto PedidoProduto, @PathVariable Long id){
             PedidoProduto = pedidoProdutoService.atualizar(PedidoProduto, id);
             return ResponseEntity.ok().body(PedidoProduto);

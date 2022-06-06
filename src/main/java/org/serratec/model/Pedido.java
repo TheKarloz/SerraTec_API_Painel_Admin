@@ -22,6 +22,7 @@ public class Pedido{
     @Column(name = "id_pedido")
     private Long id;
    
+    @Column(name = "status_pedido", nullable = false)
     private EStatus status;
     
     @OneToOne

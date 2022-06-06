@@ -29,17 +29,12 @@ public class PedidoProduto {
     @JoinColumn(name = "id_produto")
     private Produto produto;
 
-    @Column(name = "quantidade_produto")
+    @Column(name = "quantidade_produto", nullable = false)
     private Long quantidadeProduto;
     
-    @Column(name = "perc_desconto")
+    @Column(name = "perc_desconto", nullable = false)
     private double percDesconto;
  
-    // @Override
-    // public String toString() {
-        
-    // }
-
     public Long getId() {
         return id;
     }
