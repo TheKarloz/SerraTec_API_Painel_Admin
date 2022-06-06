@@ -3,8 +3,10 @@ package org.serratec.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.serratec.dto.PedidoProdutoInsertDTO;
+import org.serratec.dto.PedidoProdutoInserirDTO;
 import org.serratec.dto.PedidoProdutoSelectDTO;
+import org.serratec.exception.CustomNotFoundException;
+//import org.serratec.exception.PedidoProdutoException;
 import org.serratec.model.PedidoProduto;
 import org.serratec.repository.PedidoProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +24,7 @@ public class PedidoProdutoService {
         .collect(Collectors.toList());
     }
 
-    public PedidoProdutoInsertDTO inserir(PedidoProdutoInsertDTO pedidoProdutoDTO){
+    public PedidoProdutoInserirDTO inserir(PedidoProdutoInserirDTO pedidoProdutoDTO){
         PedidoProduto pedidoProduto = new PedidoProduto();
         
         pedidoProduto.setPedido(pedidoProdutoDTO.getPedido());
@@ -31,7 +33,7 @@ public class PedidoProdutoService {
         pedidoProduto.setPercDesconto(pedidoProdutoDTO.getPercDesconto());
         pedidoProduto = pedidoProdutoRepository.save(pedidoProduto);
         
-        return new PedidoProdutoInsertDTO(pedidoProduto);
+        return new PedidoProdutoInserirDTO(pedidoProduto);
     }
 
     public PedidoProduto atualizar(PedidoProduto pedidoProduto, Long id){
@@ -39,7 +41,15 @@ public class PedidoProdutoService {
             pedidoProduto.setId(id);
             return pedidoProdutoRepository.save(pedidoProduto);
         }   
-		return null;
+		throw new CustomNotFoundException("Pedido com id '" + id + "' não foi encontrado");
+    }
+
+    public void deletar(Long id){
+        if(pedidoProdutoRepository.existsById(id)){
+            pedidoProdutoRepository.deleteById(id);
+        }else{
+            throw new CustomNotFoundException("Pedido com id '"+id+"' não encontrado");
+        }
     }
 
 }

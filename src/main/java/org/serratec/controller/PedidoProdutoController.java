@@ -3,7 +3,9 @@ package org.serratec.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.serratec.dto.PedidoProdutoInsertDTO;
+import javax.validation.Valid;
+
+import org.serratec.dto.PedidoProdutoInserirDTO;
 import org.serratec.dto.PedidoProdutoSelectDTO;
 import org.serratec.model.PedidoProduto;
 import org.serratec.service.PedidoProdutoService;
@@ -34,8 +36,8 @@ public class PedidoProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> inserir(@RequestBody PedidoProdutoInsertDTO pedidoProdutoDTO){
-        PedidoProdutoInsertDTO pedProdDTO = pedidoProdutoService.inserir(pedidoProdutoDTO);
+    public ResponseEntity<Object> inserir(@Valid @RequestBody PedidoProdutoInserirDTO pedidoProdutoDTO){
+        PedidoProdutoInserirDTO pedProdDTO = pedidoProdutoService.inserir(pedidoProdutoDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{pedido}")
                     .buildAndExpand(pedProdDTO.getPedido())
                     .toUri();
@@ -45,7 +47,7 @@ public class PedidoProdutoController {
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> atualizar(@RequestBody PedidoProduto PedidoProduto, @PathVariable Long id){
+    public ResponseEntity<Object> atualizar(@Valid @RequestBody PedidoProduto PedidoProduto, @PathVariable Long id){
             PedidoProduto = pedidoProdutoService.atualizar(PedidoProduto, id);
             return ResponseEntity.ok().body(PedidoProduto);
     }

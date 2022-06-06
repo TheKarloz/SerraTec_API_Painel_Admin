@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "produto")
@@ -34,6 +35,7 @@ public class Produto {
     @Column(name = "valor_unitario")
     private BigDecimal valorUnitario;
  
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;

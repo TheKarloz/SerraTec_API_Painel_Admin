@@ -2,12 +2,24 @@ package org.serratec.dto;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.serratec.model.Categoria;
 
 public class ProdutoInserirDTO {
     
+    @NotBlank
     private String nome;
+    
+    @NotNull
+    @DecimalMin(value = "1.0", message = "Valor Unitario deve ser maior do que zero (0)")
+    @Digits(integer=18, fraction=2, message = "Valor unitário dever ter apenas duas casas decimais")
     private BigDecimal valorUnitario;
+    
+    @NotNull
     private Categoria categoria;
     
     public String getNome() {

@@ -41,29 +41,83 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler{
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-    HttpHeaders headers, HttpStatus status, WebRequest request){
-        return ResponseEntity.badRequest().body(ex.getMessage());
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        LocalDateTime data = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.UK);
+        String dataFormatada = data.format(formatter);
+        
+        List<String> errors = new ArrayList<>();
 
-    } 
+        Throwable mostSpecificCause = ex.getMostSpecificCause();
+        ErroResposta erroResposta;
 
+        if (mostSpecificCause != null) {
+            String exceptionName = mostSpecificCause.getClass().getName();
+            String message = mostSpecificCause.getMessage();
+            errors.add(message);
+            erroResposta = new ErroResposta(status.value(), exceptionName, dataFormatada, errors);
+        } else {
+            erroResposta = new ErroResposta(status.value(), ex.getMessage(), dataFormatada);
+        }
+        return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
+    }
+    
+    //CUSTOM NOT FOUND EXCEPTION
+    @ExceptionHandler(CustomNotFoundException.class)
+    protected ResponseEntity<Object> handleCustomNotFoundException(CustomNotFoundException ex){
+        CustomNotFoundException customNotFoundException= new CustomNotFoundException(ex.getMessage());
+        return ResponseEntity.unprocessableEntity().body(customNotFoundException);
+    }
+
+    //EMAIL EXCEPTION
     @ExceptionHandler(EmailException.class)
     protected ResponseEntity<Object> handleEmailException(EmailException ex){
         EmailException emailException = new EmailException(ex.getMessage());
         return ResponseEntity.unprocessableEntity().body(emailException);
     }
 
+    //CPF EXCEPTION
     @ExceptionHandler(CpfException.class)
     protected ResponseEntity<Object> handleCpfException(CpfException ex){
         CpfException cpfException = new CpfException(ex.getMessage());
         return ResponseEntity.unprocessableEntity().body(cpfException);
     }
 
+    //CATEGORIA EXCEPTION
     @ExceptionHandler(CategoriaException.class)
     protected ResponseEntity<Object> handleCategoriaException(CategoriaException ex){
         CategoriaException categoriaException = new CategoriaException(ex.getMessage());
         return ResponseEntity.unprocessableEntity().body(categoriaException);
     }
+
+    //CLIENTE EXCEPTION
+    @ExceptionHandler(ClienteException.class)
+    protected ResponseEntity<Object> handleClienteException(ClienteException ex){
+        ClienteException clienteException = new ClienteException(ex.getMessage());
+        return ResponseEntity.unprocessableEntity().body(clienteException);
+    }
+
+    //PRODUTO EXCEPTION
+    @ExceptionHandler(ProdutoException.class)
+    protected ResponseEntity<Object> handleProdutoException(ProdutoException ex){
+        ProdutoException produtoException = new ProdutoException(ex.getMessage());
+        return ResponseEntity.unprocessableEntity().body(produtoException);
+    }
+
+    //PEDIDO EXCEPTION
+    @ExceptionHandler(PedidoException.class)
+    protected ResponseEntity<Object> handleProdutoException(PedidoException ex){
+        PedidoException pedidoException = new PedidoException(ex.getMessage());
+        return ResponseEntity.unprocessableEntity().body(pedidoException);
+    }
+
+    //PEDIDO PRODUTO EXCEPTION
+    @ExceptionHandler(PedidoProdutoException.class)
+    protected ResponseEntity<Object> handleProdutoException(PedidoProdutoException ex){
+        PedidoProdutoException pedidoProdutoException = new PedidoProdutoException(ex.getMessage());
+        return ResponseEntity.unprocessableEntity().body(pedidoProdutoException);
+    }
+
 
 }
     

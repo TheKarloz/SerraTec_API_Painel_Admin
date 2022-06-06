@@ -1,22 +1,26 @@
 package org.serratec.dto;
 
+import javax.validation.constraints.NotNull;
+
 import org.serratec.enums.EStatus;
 import org.serratec.model.Cliente;
 import org.serratec.model.Pedido;
 
-public class PedidoSelectDTO {
+public class PedidoDTO {
 
     private Long id;
+    @NotNull
     private Cliente cliente;
+    @NotNull
     private EStatus status; 
 
-    public PedidoSelectDTO(Pedido pedido) {
+    public PedidoDTO(Pedido pedido) {
         this.id = pedido.getId();
         this.status = pedido.getStatus();
         this.cliente = pedido.getCliente();
     }
 
-    public PedidoSelectDTO(){
+    public PedidoDTO(){
         
     }
  

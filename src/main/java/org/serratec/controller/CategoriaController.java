@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.serratec.exception.CategoriaException;
+import org.serratec.exception.CustomNotFoundException;
 import org.serratec.model.Categoria;
 import org.serratec.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,6 @@ public class CategoriaController {
         } catch (CategoriaException e) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(e.getMessage());
         }
-
     }
 
     @GetMapping("/id/{id}")
@@ -46,7 +46,7 @@ public class CategoriaController {
         try{
             Categoria categoria = categoriaService.buscarPorId(id);
             return ResponseEntity.ok(categoria);
-        }catch(CategoriaException e){
+        }catch(CustomNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -56,7 +56,7 @@ public class CategoriaController {
         try{
             Categoria categoria = categoriaService.buscarPorNome(nomeCategoria.toUpperCase());
             return ResponseEntity.ok(categoria);
-        }catch(CategoriaException e){
+        }catch(CustomNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -77,7 +77,7 @@ public class CategoriaController {
             categoria = categoriaService.atualizar(categoria, id);
             return ResponseEntity.status(HttpStatus.CREATED).body(categoria);
         }
-        catch(CategoriaException e){
+        catch(CustomNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
@@ -87,9 +87,8 @@ public class CategoriaController {
         try {
             categoriaService.deletar(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(id);
-        } catch (CategoriaException e) {
+        } catch (CustomNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
     }
 }

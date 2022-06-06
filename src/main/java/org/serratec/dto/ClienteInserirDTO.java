@@ -1,13 +1,27 @@
 package org.serratec.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.br.CPF;
 import org.serratec.model.Cliente;
 import org.serratec.model.Endereco;
 
 public class ClienteInserirDTO {
     
+    @NotBlank
     private String nome;
+   
+    @NotBlank
+    @CPF(message = "CPF Inválido")
     private String cpf;
+
+    @NotBlank
+    @Email(message = "E-mail inválido")
     private String email;
+    
+    @NotNull
     private Endereco endereco;
     
     public ClienteInserirDTO(){

@@ -17,6 +17,10 @@ public enum EStatus {
         this.status = status;
     }
 
+    private EStatus(){
+        
+    }
+
     @JsonCreator
     public static EStatus verifica(Integer value)throws EnumValidationException{
         for (EStatus s : values()) {

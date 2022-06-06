@@ -1,25 +1,42 @@
 package org.serratec.dto;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+
 import org.serratec.model.Pedido;
 import org.serratec.model.PedidoProduto;
 import org.serratec.model.Produto;
 
 
-public class PedidoProdutoInsertDTO {
+public class PedidoProdutoInserirDTO {
     
+    @NotNull
     private Pedido pedido;
+    
+    @NotNull
     private Produto produto;
+    
+    @NotNull
+    @DecimalMin(value = "1")
+    @Digits(integer=10, fraction=0)
     private Long quantidadeProduto;
+    
+    @NotNull
+    @DecimalMin(value = "0")
+    @DecimalMax(value = "75")
+    @Digits(integer=2, fraction=0)
     private double percDesconto;
 
-    public PedidoProdutoInsertDTO(PedidoProduto pedidoProduto) {
+    public PedidoProdutoInserirDTO(PedidoProduto pedidoProduto) {
         this.pedido = pedidoProduto.getPedido();
         this.produto = pedidoProduto.getProduto();
         this.quantidadeProduto = pedidoProduto.getQuantidadeProduto();
         this.percDesconto = pedidoProduto.getPercDesconto();
     }
 
-    public PedidoProdutoInsertDTO(){
+    public PedidoProdutoInserirDTO(){
         
     }
 

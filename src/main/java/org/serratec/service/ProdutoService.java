@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.serratec.dto.ProdutoSelectDTO;
+import org.serratec.exception.CustomNotFoundException;
+import org.serratec.exception.ProdutoException;
 import org.serratec.dto.ProdutoInserirDTO;
 import org.serratec.model.Produto;
+import org.serratec.repository.CategoriaRepository;
 import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,28 +19,61 @@ public class ProdutoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
     public List<ProdutoSelectDTO> listar(){
-        List<Produto> produtos = produtoRepository.findAll();
-              
+        if(produtoRepository.findAll().isEmpty()){
+            throw new ProdutoException("");
+        }
+        List<Produto> produtos = produtoRepository.findAll();     
         return produtos.stream().map(produto -> new ProdutoSelectDTO(produto)).collect(Collectors.toList());
     }
     
     public ProdutoSelectDTO inserir(ProdutoInserirDTO produtoInserirDTO){
         Produto produto = new Produto();
-        produto.setNome(produtoInserirDTO.getNome());
+        produto.setNome(produtoInserirDTO.getNome().toUpperCase());
         produto.setValorUnitario(produtoInserirDTO.getValorUnitario());
         produto.setCategoria(produtoInserirDTO.getCategoria());
+        
+        if(produtoInserirDTO.getCategoria().getId() == null){
+            throw new ProdutoException("Você deve informar o id da categoria"
+            + " a qual deseja relacionar com o produto");
+        }
+        categoriaRepository.findById(produtoInserirDTO.getCategoria().getId())
+        .orElseThrow(() -> new ProdutoException("Categoria com id '" + produtoInserirDTO.getCategoria().getId()
+        + "' não encontrada"));
+
         produto = produtoRepository.save(produto);
 
         return new ProdutoSelectDTO(produto);
     }
 
-    public Produto atualizar(Produto pedidoProduto, Long id){
+    public Produto atualizar(Produto produto, Long id){
         if(produtoRepository.existsById(id)){
-            pedidoProduto.setId(id);
-            return produtoRepository.save(pedidoProduto);
+            produto.setId(id);
+            produto.setNome(produto.getNome().toUpperCase());
+            produto.setValorUnitario(produto.getValorUnitario());
+            produto.setCategoria(produto.getCategoria());
+
+            if(produto.getCategoria().getId() == null){
+                throw new ProdutoException("Você deve informar o id da categoria"
+                + " a qual deseja relacionar com o produto");
+            }
+            categoriaRepository.findById(produto.getCategoria().getId())
+            .orElseThrow(() -> new ProdutoException("Categoria com id '" + produto.getCategoria().getId()
+            + "' não encontrada"));
+
+            return produtoRepository.save(produto);
         }   
-		return null;
+		throw new CustomNotFoundException("Produto com id '"+id+"' não encontrado");
     }
-    
+
+    public void deletar(Long id){
+        if(produtoRepository.existsById(id)){
+            produtoRepository.deleteById(id);
+        }else{
+            throw new CustomNotFoundException("Produto com id '"+id+"' não encontrado");
+        }
+    }  
 }

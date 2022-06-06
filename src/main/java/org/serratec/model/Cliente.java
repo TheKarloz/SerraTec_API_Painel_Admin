@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -19,17 +21,21 @@ public class Cliente {
     @Column(name = "id_cliente")
     private Long id;
 
+    @NotBlank
     @Column(name = "nome_cliente", nullable = false, length = 40)
     private String nome;
     
+    @NotBlank
     @CPF(message = "CPF Inválido")
     @Column(name = "cpf", nullable = false, length = 11)
     private String cpf;
     
+    @NotBlank
     @Email(message = "E-mail inválido")
     @Column(name = "email", nullable = false)
     private String email;
     
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "id_endereco")
     private Endereco endereco;

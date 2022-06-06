@@ -1,6 +1,9 @@
 package org.serratec.service;
 
-import org.serratec.dto.PedidoSelectDTO;
+import org.serratec.dto.PedidoDTO;
+import org.serratec.exception.ClienteException;
+import org.serratec.exception.CustomNotFoundException;
+import org.serratec.exception.PedidoException;
 import org.serratec.model.Pedido;
 import org.serratec.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,26 +18,47 @@ public class PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
-    public List<PedidoSelectDTO> listar(){
-        List<Pedido> pedidos = pedidoRepository.findAll();
-        return pedidos.stream().map(ped -> new PedidoSelectDTO(ped)).collect(Collectors.toList());
+    public List<PedidoDTO> listar(){
+        if(pedidoRepository.findAll().isEmpty()){
+            throw new ClienteException("");
+        }else{
+            List<Pedido> pedidos = pedidoRepository.findAll();
+            return pedidos.stream().map(ped -> new PedidoDTO(ped)).collect(Collectors.toList());
+        }
     }
 
-    public PedidoSelectDTO inserir(PedidoSelectDTO pedidoDTO){
+    public PedidoDTO inserir(PedidoDTO pedidoDTO){
         Pedido pedido = new Pedido();
         pedido.setCliente(pedidoDTO.getCliente());
         pedido.setStatus(pedidoDTO.getStatus());
+        if(pedidoDTO.getCliente().getId() == null){
+            throw new PedidoException("Você deve informar o id do cliente"
+            + " o qual deseja relacionar com o pedido");
+        }
+
         pedido = pedidoRepository.save(pedido);
 
-        return new PedidoSelectDTO(pedido);
+        return new PedidoDTO(pedido);
     }
 
-    public Pedido atualizar(Pedido pedidoProduto, Long id){
+    public Pedido atualizar(Pedido pedido, Long id){
         if(pedidoRepository.existsById(id)){
-            pedidoProduto.setId(id);
-            return pedidoRepository.save(pedidoProduto);
+            pedido.setId(id);
+            if(pedido.getCliente().getId() == null){
+                throw new PedidoException("Você deve informar o id do cliente"
+            + " o qual deseja relacionar com o pedido");
+            }
+            return pedidoRepository.save(pedido);
         }   
-		return null;
+		throw new CustomNotFoundException("Pedido com id '" + id + "' não foi encontrado");
+    }
+
+    public void deletar(Long id){
+        if(pedidoRepository.existsById(id)){
+            pedidoRepository.deleteById(id);
+        }else{
+            throw new CustomNotFoundException("Pedido com id '"+id+"' não encontrado");
+        }
     }
 
 }
