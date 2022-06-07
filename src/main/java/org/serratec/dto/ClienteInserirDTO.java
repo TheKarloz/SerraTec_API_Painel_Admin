@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
 import org.serratec.model.Cliente;
-import org.serratec.model.Endereco;
 
 public class ClienteInserirDTO {
     
@@ -22,7 +21,7 @@ public class ClienteInserirDTO {
     private String email;
     
     @NotNull
-    private Endereco endereco;
+    private String cep;
     
     public ClienteInserirDTO(){
 
@@ -32,7 +31,7 @@ public class ClienteInserirDTO {
         this.nome = cliente.getNome();
         this.cpf = cliente.getCpf();
         this.email = cliente.getEmail();
-        this.endereco = cliente.getEndereco();
+        this.cep = cliente.getEndereco().getCep();
     }
 
     public String getNome() {
@@ -53,11 +52,14 @@ public class ClienteInserirDTO {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Endereco getEndereco() {
-        return endereco;
+
+    public String getCep() {
+        return cep;
     }
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
+
+    public void setCep(String cep) {
+        this.cep = cep;
     }
+    
     
 }

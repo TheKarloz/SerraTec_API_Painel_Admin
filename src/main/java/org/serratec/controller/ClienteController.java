@@ -6,8 +6,8 @@ import javax.validation.Valid;
 
 import org.serratec.dto.ClienteSelectDTO;
 import org.serratec.dto.ClienteInserirDTO;
-import org.serratec.exception.ClienteException;
 import org.serratec.exception.CpfException;
+import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 import org.serratec.exception.EmailException;
 import org.serratec.model.Cliente;
@@ -32,49 +32,38 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping
-    public ResponseEntity<List<ClienteSelectDTO>> listarTodos(){
+    public ResponseEntity<Object> listarTodos() throws CustomNoContentException{
         List<ClienteSelectDTO> clientes = clienteService.listar();
         return ResponseEntity.ok(clientes);
     }
 
+    @GetMapping("/{cpf}")
+    public ResponseEntity<Object> buscarPorCpf(@PathVariable String cpf)throws CustomNotFoundException{
+        
+        Cliente cliente = clienteService.buscarPorCpf(cpf);
+        return ResponseEntity.ok(cliente);
+    }
+
     @PostMapping
-    public ResponseEntity<Object> inserir(@Valid @RequestBody ClienteInserirDTO clienteInserirDTO){
-        try {
-            ClienteSelectDTO clienteDTO = clienteService.inserir(clienteInserirDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(clienteDTO);
-        } catch (EmailException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        } catch (CpfException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }catch(ClienteException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<Object> inserir(@Valid @RequestBody ClienteInserirDTO clienteInserirDTO)
+    throws EmailException, CpfException, CustomNotFoundException{
+        
+        ClienteSelectDTO clienteDTO = clienteService.inserir(clienteInserirDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteDTO);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Object> atualizar(@Valid @RequestBody Cliente cliente, @PathVariable Long id) {
-        try{
-            cliente = clienteService.atualizar(cliente, id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(cliente);
-        }catch (EmailException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }catch (CpfException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }catch(ClienteException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }catch(CustomNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    @PutMapping("/{cpf}")
+    public ResponseEntity<Object> atualizar(@Valid @RequestBody ClienteInserirDTO clienteInserirDTO, 
+    @PathVariable String cpf) throws CustomNotFoundException{
+        
+        ClienteSelectDTO clienteDTO = clienteService.atualizar(clienteInserirDTO, cpf);
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletar(@PathVariable Long id){
-        try {
-            clienteService.deletar(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(id);
-        } catch (CustomNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    @DeleteMapping("/{cpf}")
+    public ResponseEntity<Object> deletar(@PathVariable String cpf) throws CustomNotFoundException{
+        clienteService.deletar(cpf);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(cpf);
     }
 
 }

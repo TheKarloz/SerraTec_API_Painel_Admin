@@ -3,6 +3,7 @@ package org.serratec.service;
 import java.util.List;
 
 import org.serratec.exception.CategoriaException;
+import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 import org.serratec.model.Categoria;
 import org.serratec.repository.CategoriaRepository;
@@ -18,7 +19,7 @@ public class CategoriaService {
     //LISTA TODAS AS CATEGORIAS CADASTRADAS
     public List<Categoria> listar(){
         if(categoriaRepository.findAll().isEmpty()){
-            throw new CategoriaException("");
+            throw new CustomNoContentException("");
         }
         return categoriaRepository.findAll();
     }

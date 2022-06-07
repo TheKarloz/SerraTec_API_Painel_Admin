@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.serratec.dto.ProdutoSelectDTO;
+import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 import org.serratec.exception.ProdutoException;
 import org.serratec.dto.ProdutoInserirDTO;
@@ -24,7 +25,7 @@ public class ProdutoService {
 
     public List<ProdutoSelectDTO> listar(){
         if(produtoRepository.findAll().isEmpty()){
-            throw new ProdutoException("");
+            throw new CustomNoContentException("");
         }
         List<Produto> produtos = produtoRepository.findAll();     
         return produtos.stream().map(produto -> new ProdutoSelectDTO(produto)).collect(Collectors.toList());

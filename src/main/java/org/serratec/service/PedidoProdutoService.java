@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.serratec.dto.PedidoProdutoInserirDTO;
 import org.serratec.dto.PedidoProdutoSelectDTO;
+import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 //import org.serratec.exception.PedidoProdutoException;
 import org.serratec.model.PedidoProduto;
@@ -20,8 +21,12 @@ public class PedidoProdutoService {
 
     public List<PedidoProdutoSelectDTO> listar(){
         List<PedidoProduto> pedidoProdutos = pedidoProdutoRepository.findAll();
-        return pedidoProdutos.stream().map(pedProd -> new PedidoProdutoSelectDTO(pedProd))
-        .collect(Collectors.toList());
+        if(!pedidoProdutos.isEmpty()){
+            return pedidoProdutos.stream().map(pedProd -> new PedidoProdutoSelectDTO(pedProd))
+            .collect(Collectors.toList());
+        }else{
+            throw new CustomNoContentException("null");
+        }
     }
 
     public PedidoProdutoInserirDTO inserir(PedidoProdutoInserirDTO pedidoProdutoDTO){

@@ -39,8 +39,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler{
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, 
     HttpHeaders headers, HttpStatus status, WebRequest request) {
         LocalDateTime dataHora = LocalDateTime.now();
-
-        
+    
         List<String> errors = new ArrayList<>();
 
         Throwable mostSpecificCause = ex.getMostSpecificCause();
@@ -59,66 +58,65 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler{
     
     //CUSTOM NOT FOUND EXCEPTION
     @ExceptionHandler(CustomNotFoundException.class)
-    protected ResponseEntity<Object> handleCustomNotFoundException(CustomNotFoundException ex, 
-    WebRequest request, HttpStatus status){
-        LocalDateTime dataHora = LocalDateTime.now();
-        List<String> errors = new ArrayList<>();
-        errors.add((ex.getLocalizedMessage()));
-        ErroResposta erroResposta = new ErroResposta(status.value(),ex.getMessage(), dataHora,errors);
-        return ResponseEntity.unprocessableEntity().body(erroResposta);
-        
-        
-        // CustomNotFoundException customNotFoundException= new CustomNotFoundException(ex.getMessage());
-        // return ResponseEntity.unprocessableEntity().body(customNotFoundException);
+    protected ResponseEntity<Object> handleCustomNotFoundException(CustomNotFoundException ex){   
+        CustomNotFoundException customNotFoundException= new CustomNotFoundException(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(customNotFoundException.getLocalizedMessage());
+    }
+
+    //CUSTOM NO CONTENT EXCEPTION
+    @ExceptionHandler(CustomNoContentException.class)
+    protected ResponseEntity<Object> handleCustomNoContentException(CustomNoContentException ex){   
+        CustomNoContentException customNoContentException = new CustomNoContentException(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(customNoContentException.getLocalizedMessage());
     }
 
     //EMAIL EXCEPTION
     @ExceptionHandler(EmailException.class)
     protected ResponseEntity<Object> handleEmailException(EmailException ex){
         EmailException emailException = new EmailException(ex.getMessage());
-        return ResponseEntity.unprocessableEntity().body(emailException);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(emailException.getLocalizedMessage());
     }
 
     //CPF EXCEPTION
     @ExceptionHandler(CpfException.class)
     protected ResponseEntity<Object> handleCpfException(CpfException ex){
         CpfException cpfException = new CpfException(ex.getMessage());
-        return ResponseEntity.unprocessableEntity().body(cpfException);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cpfException.getLocalizedMessage());
     }
 
     //CATEGORIA EXCEPTION
     @ExceptionHandler(CategoriaException.class)
     protected ResponseEntity<Object> handleCategoriaException(CategoriaException ex){
         CategoriaException categoriaException = new CategoriaException(ex.getMessage());
-        return ResponseEntity.unprocessableEntity().body(categoriaException);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(categoriaException.getLocalizedMessage());
     }
 
     //CLIENTE EXCEPTION
     @ExceptionHandler(ClienteException.class)
     protected ResponseEntity<Object> handleClienteException(ClienteException ex){
         ClienteException clienteException = new ClienteException(ex.getMessage());
-        return ResponseEntity.unprocessableEntity().body(clienteException);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(clienteException.getLocalizedMessage());
     }
 
     //PRODUTO EXCEPTION
     @ExceptionHandler(ProdutoException.class)
     protected ResponseEntity<Object> handleProdutoException(ProdutoException ex){
         ProdutoException produtoException = new ProdutoException(ex.getMessage());
-        return ResponseEntity.unprocessableEntity().body(produtoException);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(produtoException.getLocalizedMessage());
     }
 
     //PEDIDO EXCEPTION
     @ExceptionHandler(PedidoException.class)
     protected ResponseEntity<Object> handleProdutoException(PedidoException ex){
         PedidoException pedidoException = new PedidoException(ex.getMessage());
-        return ResponseEntity.unprocessableEntity().body(pedidoException);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pedidoException.getLocalizedMessage());
     }
 
     //PEDIDO PRODUTO EXCEPTION
     @ExceptionHandler(PedidoProdutoException.class)
     protected ResponseEntity<Object> handleProdutoException(PedidoProdutoException ex){
         PedidoProdutoException pedidoProdutoException = new PedidoProdutoException(ex.getMessage());
-        return ResponseEntity.unprocessableEntity().body(pedidoProdutoException);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pedidoProdutoException.getLocalizedMessage());
     }
 
 

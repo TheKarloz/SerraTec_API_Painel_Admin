@@ -22,7 +22,6 @@ public class Endereco {
 	private String bairro;
 	private String localidade;
 	private String uf;
-	private Long ibge;
    
     
     public Long getId() {
@@ -31,8 +30,6 @@ public class Endereco {
     public void setId(Long id) {
         this.id = id;
     }
-
-
     public String getCep() {
         return cep;
     }
@@ -62,11 +59,5 @@ public class Endereco {
     }
     public void setUf(String uf) {
         this.uf = uf;
-    }
-    public Long getIbge() {
-        return ibge;
-    }
-    public void setIbge(Long ibge) {
-        this.ibge = ibge;
     }
 }

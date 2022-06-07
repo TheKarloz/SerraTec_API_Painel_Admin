@@ -1,7 +1,7 @@
 package org.serratec.service;
 
 import org.serratec.dto.PedidoDTO;
-import org.serratec.exception.ClienteException;
+import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 import org.serratec.exception.PedidoException;
 import org.serratec.model.Pedido;
@@ -20,7 +20,7 @@ public class PedidoService {
 
     public List<PedidoDTO> listar(){
         if(pedidoRepository.findAll().isEmpty()){
-            throw new ClienteException("");
+            throw new CustomNoContentException("");
         }else{
             List<Pedido> pedidos = pedidoRepository.findAll();
             return pedidos.stream().map(ped -> new PedidoDTO(ped)).collect(Collectors.toList());

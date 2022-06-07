@@ -5,9 +5,11 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.serratec.dto.PedidoDTO;
+import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 import org.serratec.exception.EnumValidationException;
 import org.serratec.exception.PedidoException;
+import org.serratec.exception.ProdutoException;
 import org.serratec.model.Pedido;
 import org.serratec.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,45 +32,31 @@ public class PedidoController {
     private PedidoService pedidoService;
 
     @GetMapping
-    public ResponseEntity<List<PedidoDTO>> listar(){
+    public ResponseEntity<List<PedidoDTO>> listar() throws CustomNoContentException{
         List<PedidoDTO> pedidoDTOs = pedidoService.listar();
         return ResponseEntity.ok(pedidoDTOs);
     }
 
     @PostMapping
-    public ResponseEntity<Object> inserir(@Valid @RequestBody PedidoDTO pedidoDTO){
-        try{
-            PedidoDTO pedDTO = pedidoService.inserir(pedidoDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(pedDTO);
-        }catch(EnumValidationException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }catch(PedidoException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    public ResponseEntity<Object> inserir(@Valid @RequestBody PedidoDTO pedidoDTO)
+    throws EnumValidationException, PedidoException{
+        
+        PedidoDTO pedDTO = pedidoService.inserir(pedidoDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> atualizar(@Valid @RequestBody Pedido PedidoProduto, @PathVariable Long id){
-        try{
-            PedidoProduto = pedidoService.atualizar(PedidoProduto, id);
-            return ResponseEntity.status(HttpStatus.CREATED).body(PedidoProduto);
-        }catch(PedidoException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-        catch(CustomNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Object> atualizar(@Valid @RequestBody Pedido PedidoProduto, @PathVariable Long id)
+    throws ProdutoException, CustomNotFoundException{
+        
+        PedidoProduto = pedidoService.atualizar(PedidoProduto, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(PedidoProduto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deletar(@Valid @PathVariable Long id){
-        try {
-            pedidoService.deletar(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(id);
-        }
-        catch (CustomNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Object> deletar(@Valid @PathVariable Long id) throws CustomNotFoundException{
+        pedidoService.deletar(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(id);
     }
 
 

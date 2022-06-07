@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+
 @Service
 public class EnderecoService {
 
@@ -16,9 +17,9 @@ public class EnderecoService {
     private EnderecoRepository enderecoRepository;
 
     public EnderecoDTO buscar(String cep){
-        Optional<Endereco> endereco = enderecoRepository.findByCep(cep);
-        if(endereco.isPresent()){
-            return new EnderecoDTO(endereco.get());
+        Endereco endereco = enderecoRepository.findByCep(cep);
+        if(endereco != null){
+            return new EnderecoDTO(endereco);
         }else{
             RestTemplate rs = new RestTemplate();
             String url = "https://viacep.com.br/ws/" + cep + "/json/";
@@ -38,5 +39,5 @@ public class EnderecoService {
         endereco = enderecoRepository.save(endereco);
         return new EnderecoDTO(endereco);
     }
-    
+   
 }

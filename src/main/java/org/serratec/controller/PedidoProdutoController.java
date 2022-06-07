@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.serratec.dto.PedidoProdutoInserirDTO;
 import org.serratec.dto.PedidoProdutoSelectDTO;
+import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 import org.serratec.exception.PedidoProdutoException;
 import org.serratec.model.PedidoProduto;
@@ -30,22 +31,31 @@ public class PedidoProdutoController {
     private PedidoProdutoService pedidoProdutoService;
 
     @GetMapping
-    public ResponseEntity<List<PedidoProdutoSelectDTO>> listar(){
+    public ResponseEntity<List<PedidoProdutoSelectDTO>> listar() throws CustomNoContentException{
         List<PedidoProdutoSelectDTO> pedidoProdutosDTO = pedidoProdutoService.listar();
         return ResponseEntity.ok(pedidoProdutosDTO);
     }
 
     @PostMapping
-    public ResponseEntity<Object> inserir(@Valid @RequestBody PedidoProdutoInserirDTO pedidoProdutoDTO) throws PedidoProdutoException{
+    public ResponseEntity<Object> inserir(@Valid @RequestBody PedidoProdutoInserirDTO pedidoProdutoDTO) 
+    throws PedidoProdutoException{
         PedidoProdutoInserirDTO pedProdDTO = pedidoProdutoService.inserir(pedidoProdutoDTO);    
         return ResponseEntity.status(HttpStatus.CREATED).body(pedProdDTO);
     }
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> atualizar(@Valid @RequestBody PedidoProduto PedidoProduto, @PathVariable Long id) throws CustomNotFoundException{
-            PedidoProduto = pedidoProdutoService.atualizar(PedidoProduto, id);
-            return ResponseEntity.ok().body(PedidoProduto);
+    public ResponseEntity<Object> atualizar(@Valid @RequestBody PedidoProduto PedidoProduto, @PathVariable Long id) 
+    throws CustomNotFoundException{
+            
+        PedidoProduto = pedidoProdutoService.atualizar(PedidoProduto, id);
+        return ResponseEntity.ok().body(PedidoProduto);
+    }
+
+    public ResponseEntity<Object> deletar(@PathVariable Long id) throws CustomNotFoundException{
+        pedidoProdutoService.deletar(id);
+        return ResponseEntity.noContent().build();
+
     }
      
 }
