@@ -24,6 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoProdutoController {
@@ -31,13 +35,23 @@ public class PedidoProdutoController {
     @Autowired
     private PedidoProdutoService pedidoProdutoService;
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 404, message = "Não encontrado"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
+
     @GetMapping
+    @ApiOperation(value = "Lista pedido_itens", notes = "Listagem de pedido_itens")
     public ResponseEntity<List<PedidoProdutoSelectDTO>> listar() throws CustomNoContentException{
         List<PedidoProdutoSelectDTO> pedidoProdutosDTO = pedidoProdutoService.listar();
         return ResponseEntity.ok(pedidoProdutosDTO);
     }
 
     @PostMapping
+    @ApiOperation(value = "Cadastrar um pedido_item", notes = "Cadastra um pedido_item")
     public ResponseEntity<Object> inserir(@Valid @RequestBody PedidoProdutoInserirDTO pedidoProdutoDTO) 
     throws PedidoProdutoException{
         PedidoProdutoInserirDTO pedProdDTO = pedidoProdutoService.inserir(pedidoProdutoDTO);    
@@ -45,6 +59,7 @@ public class PedidoProdutoController {
     }
 
     @PutMapping("{id}")
+    @ApiOperation(value = "Atualizar peido_item", notes = "Atualiza um pedido_item")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> atualizar(@Valid @RequestBody PedidoProduto PedidoProduto, @PathVariable Long id) 
     throws CustomNotFoundException{
@@ -54,6 +69,7 @@ public class PedidoProdutoController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Deletar pedido_item", notes = "Deleta pedido_itens por id")
     public ResponseEntity<Object> deletar(@PathVariable Long id) throws CustomNotFoundException{
         pedidoProdutoService.deletar(id);
         return ResponseEntity.noContent().build();

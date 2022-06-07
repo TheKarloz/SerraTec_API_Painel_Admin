@@ -23,6 +23,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
@@ -30,7 +34,16 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 404, message = "Não encontrado"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
+
     @GetMapping
+    @ApiOperation(value = "Listar produtos", notes = "Listagem de produtos")
     public ResponseEntity<Object> listarTodos() throws CustomNoContentException{
         
         List<ProdutoSelectDTO> produtos = produtoService.listar();
@@ -38,6 +51,7 @@ public class ProdutoController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Cadastrar produtos", notes = "Cadastra um produto")
     public ResponseEntity<Object> inserir(@Valid @RequestBody ProdutoInserirDTO produtoInserirDTO)
     throws ProdutoException{
         
@@ -47,6 +61,7 @@ public class ProdutoController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Atualizar produto", notes = "Atualiza um produto por id")
     public ResponseEntity<Object> atualizar(@Valid @RequestBody Produto produto, @PathVariable Long id)
     throws ProdutoException, CustomNotFoundException{
         
@@ -55,6 +70,7 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/{id}")
+    @ApiOperation(value = "Deletar produto", notes = "deleta um produto por id")
     public ResponseEntity<Object> deletar(@Valid @PathVariable Long id) throws CustomNotFoundException{
         
         produtoService.deletar(id);

@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-// import io.swagger.annotations.ApiOperation;
-// import io.swagger.annotations.ApiResponse;
-// import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/categorias")
@@ -32,14 +31,23 @@ public class CategoriaController {
 
     @Autowired
     private CategoriaService categoriaService;
-
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 404, message = "Não encontrado"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
+   
     @GetMapping
+    @ApiOperation(value = "Lista todos as categorias", notes = "Listagem de categorias")
     public ResponseEntity<Object> listar() throws CustomNoContentException{
         List<Categoria> categorias = categoriaService.listar();
         return ResponseEntity.ok(categorias);
     }
 
     @GetMapping("/id/{id}")
+    @ApiOperation(value = "Lista categoria por id", notes = "Listagem de categorias por id")
     public ResponseEntity<Object> buscarPorId(@PathVariable Long id) throws CustomNotFoundException{
         Categoria categoria = categoriaService.buscarPorId(id);
         return ResponseEntity.ok(categoria);
@@ -47,6 +55,7 @@ public class CategoriaController {
     }
 
     @GetMapping("/{nomeCategoria}")
+    @ApiOperation(value = "Lista categoria por nome", notes = "Listagem de categorias por nome")
     public ResponseEntity<Object> buscarPorNome(@PathVariable String nomeCategoria)throws CustomNotFoundException{
         Categoria categoria = categoriaService.buscarPorNome(nomeCategoria.toUpperCase());
         return ResponseEntity.ok(categoria);
@@ -54,6 +63,7 @@ public class CategoriaController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Inserir categoria", notes = "Insere uma categoria")
     public ResponseEntity<Object> inserir(@Valid @RequestBody Categoria categoria)throws CategoriaException{
         categoria = categoriaService.inserir(categoria);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoria);
@@ -61,6 +71,7 @@ public class CategoriaController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation(value = "Atualizar categoria por id", notes = "Atualizar uma categoria por id")
     public ResponseEntity<Object> atualizar(@Valid @RequestBody Categoria categoria, @PathVariable Long id)
     throws CustomNotFoundException{
         
@@ -69,7 +80,7 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "Deletar categoria por id", notes = "Deleta uma categoria por id")
     public ResponseEntity<Object> deletar(@PathVariable Long id) throws CustomNotFoundException{
         categoriaService.deletar(id);
         return ResponseEntity.noContent().build();
