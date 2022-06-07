@@ -39,6 +39,10 @@ public class PedidoProdutoService {
     public PedidoProduto atualizar(PedidoProduto pedidoProduto, Long id){
         if(pedidoProdutoRepository.existsById(id)){
             pedidoProduto.setId(id);
+            pedidoProduto.setPedido(pedidoProduto.getPedido());
+            pedidoProduto.setProduto(pedidoProduto.getProduto());
+            pedidoProduto.setQuantidadeProduto(pedidoProduto.getQuantidadeProduto());
+            pedidoProduto.setPercDesconto(pedidoProduto.getPercDesconto());
             return pedidoProdutoRepository.save(pedidoProduto);
         }   
 		throw new CustomNotFoundException("Pedido com id '" + id + "' não foi encontrado");

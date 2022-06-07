@@ -1,12 +1,13 @@
 package org.serratec.controller;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.serratec.dto.PedidoProdutoInserirDTO;
 import org.serratec.dto.PedidoProdutoSelectDTO;
+import org.serratec.exception.CustomNotFoundException;
+import org.serratec.exception.PedidoProdutoException;
 import org.serratec.model.PedidoProduto;
 import org.serratec.service.PedidoProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/pedidos_itens")
+@RequestMapping("/pedidos")
 public class PedidoProdutoController {
 
     @Autowired
@@ -36,18 +36,14 @@ public class PedidoProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> inserir(@Valid @RequestBody PedidoProdutoInserirDTO pedidoProdutoDTO){
-        PedidoProdutoInserirDTO pedProdDTO = pedidoProdutoService.inserir(pedidoProdutoDTO);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{pedido}")
-                    .buildAndExpand(pedProdDTO.getPedido())
-                    .toUri();
-        
-        return ResponseEntity.created(uri).body(pedidoProdutoDTO);
+    public ResponseEntity<Object> inserir(@Valid @RequestBody PedidoProdutoInserirDTO pedidoProdutoDTO) throws PedidoProdutoException{
+        PedidoProdutoInserirDTO pedProdDTO = pedidoProdutoService.inserir(pedidoProdutoDTO);    
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedProdDTO);
     }
 
     @PutMapping("{id}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> atualizar(@Valid @RequestBody PedidoProduto PedidoProduto, @PathVariable Long id){
+    public ResponseEntity<Object> atualizar(@Valid @RequestBody PedidoProduto PedidoProduto, @PathVariable Long id) throws CustomNotFoundException{
             PedidoProduto = pedidoProdutoService.atualizar(PedidoProduto, id);
             return ResponseEntity.ok().body(PedidoProduto);
     }

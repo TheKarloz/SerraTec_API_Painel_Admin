@@ -3,6 +3,8 @@ package org.serratec.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+
 import org.serratec.dto.ClienteSelectDTO;
 import org.serratec.config.MailConfig;
 import org.serratec.dto.ClienteInserirDTO;
@@ -49,7 +51,7 @@ public class ClienteService {
         }
         enderecoRepository.findById(clienteInserirDTO.getEndereco().getId())
             .orElseThrow(() -> new ClienteException("Endereco com id '" + clienteInserirDTO.getEndereco().getId() 
-            + "' não foi encontrado"));
+            + "' não existe"));
 
         Cliente cliente = new Cliente();
 
@@ -58,7 +60,12 @@ public class ClienteService {
         cliente.setEmail(clienteInserirDTO.getEmail());
         cliente.setEndereco(clienteInserirDTO.getEndereco());
         cliente = clienteRepository.save(cliente);
-        mailConfig.enviarEmail(cliente.getEmail(), "Cadastro de cliente!", cliente.getNome(), cliente.toString());
+        try {
+            mailConfig.enviarEmailHTML(cliente.getEmail(), "Cadastro de cliente!",
+            emailCadastro(clienteInserirDTO.getNome(), clienteInserirDTO.getEmail()));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
 
         return new ClienteSelectDTO(cliente);
     }
@@ -66,6 +73,12 @@ public class ClienteService {
     public Cliente atualizar(Cliente cliente, Long id) throws EmailException, CpfException{
         if(clienteRepository.existsById(id)){         
             cliente.setId(id);
+            try {
+                mailConfig.enviarEmailHTML(cliente.getEmail(), "Atuaização de cadastro!",
+                emailAtualizarCadastro(cliente.getNome(), cliente.getEmail()));
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
             clienteRepository.save(cliente);
         }       
         if(clienteRepository.findByEmail(cliente.getEmail()) != null){
@@ -91,6 +104,41 @@ public class ClienteService {
         throw new CustomNotFoundException("Cliente com id '"+id+"' não encontrado");
         }
     }
+
+    public String emailCadastro(String nome, String email){
+        String textoHtml = "<h1 align='center'>Olá," + nome + " Obrigado por se cadastrar em nossa loja!</h1>" +
+		"<div>" +
+			"<h3>"+
+				"<p>Nome: " + nome +"<p>"+
+				"<p>E-Mail: "+email+" <p>"+
+			"</h3>"+
+		"</div>"+
+		"<div>"+
+			"<h2 align='center'>"+
+				"Atenciosamente Loja"+
+			"</h2>"+
+		"</div>";
+
+        return textoHtml;
+    }
+
+    public String emailAtualizarCadastro(String nome, String email){
+        String textoHtml = "<h1 align='center'>Olá," + nome + ", seu cadastro foi atualizado!</h1>" +
+		"<div>" +
+			"<h3>"+
+				"<p>Nome: " + nome +"<p>"+
+				"<p>E-Mail: "+email+" <p>"+
+			"</h3>"+
+		"</div>"+
+		"<div>"+
+			"<h2 align='center'>"+
+				"Atenciosamente Loja"+
+			"</h2>"+
+		"</div>";
+
+        return textoHtml;
+    }
+
 
     
 }
