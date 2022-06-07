@@ -15,7 +15,7 @@ public class ProdutoInserirDTO {
     private String nome;
     
     @NotNull
-    @DecimalMin(value = "1.0", message = "Valor Unitario deve ser maior do que zero (0)")
+    @DecimalMin(value = "0.10", message = "Valor Unitario deve ser maior do que zero (0)")
     @Digits(integer=18, fraction=2, message = "Valor unitário dever ter apenas duas casas decimais")
     private BigDecimal valorUnitario;
     

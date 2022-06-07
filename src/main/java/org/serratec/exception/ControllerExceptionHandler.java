@@ -1,10 +1,8 @@
 package org.serratec.exception;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,11 +20,8 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler{
   
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-    HttpHeaders headers, HttpStatus status, WebRequest request){
-       
-        LocalDateTime data = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.UK);
-        String dataFormatada = data.format(formatter);
+    HttpHeaders headers, HttpStatus status, WebRequest request){       
+        LocalDateTime dataHora = LocalDateTime.now();
 
         List<String> errors = new ArrayList<String>();
         for(FieldError error : ex.getBindingResult().getFieldErrors()){
@@ -35,16 +30,16 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler{
 
         ErroResposta erroResposta = new ErroResposta(status.value(),
         "Existem campos inválidos", 
-        dataFormatada,errors);
+        dataHora,errors);
         
         return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        LocalDateTime data = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss", Locale.UK);
-        String dataFormatada = data.format(formatter);
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, 
+    HttpHeaders headers, HttpStatus status, WebRequest request) {
+        LocalDateTime dataHora = LocalDateTime.now();
+
         
         List<String> errors = new ArrayList<>();
 
@@ -55,18 +50,26 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler{
             String exceptionName = mostSpecificCause.getClass().getName();
             String message = mostSpecificCause.getMessage();
             errors.add(message);
-            erroResposta = new ErroResposta(status.value(), exceptionName, dataFormatada, errors);
+            erroResposta = new ErroResposta(status.value(), exceptionName, dataHora, errors);
         } else {
-            erroResposta = new ErroResposta(status.value(), ex.getMessage(), dataFormatada);
+            erroResposta = new ErroResposta(status.value(), ex.getMessage(), dataHora);
         }
         return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
     }
     
     //CUSTOM NOT FOUND EXCEPTION
     @ExceptionHandler(CustomNotFoundException.class)
-    protected ResponseEntity<Object> handleCustomNotFoundException(CustomNotFoundException ex){
-        CustomNotFoundException customNotFoundException= new CustomNotFoundException(ex.getMessage());
-        return ResponseEntity.unprocessableEntity().body(customNotFoundException);
+    protected ResponseEntity<Object> handleCustomNotFoundException(CustomNotFoundException ex, 
+    WebRequest request, HttpStatus status){
+        LocalDateTime dataHora = LocalDateTime.now();
+        List<String> errors = new ArrayList<>();
+        errors.add((ex.getLocalizedMessage()));
+        ErroResposta erroResposta = new ErroResposta(status.value(),ex.getMessage(), dataHora,errors);
+        return ResponseEntity.unprocessableEntity().body(erroResposta);
+        
+        
+        // CustomNotFoundException customNotFoundException= new CustomNotFoundException(ex.getMessage());
+        // return ResponseEntity.unprocessableEntity().body(customNotFoundException);
     }
 
     //EMAIL EXCEPTION
