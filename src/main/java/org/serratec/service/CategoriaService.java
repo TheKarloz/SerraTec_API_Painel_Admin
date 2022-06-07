@@ -58,10 +58,11 @@ public class CategoriaService {
     }
 
     //DELETA CATEGORIA
-    public void deletar(Long id){
+    public void deletar(Long id){    
         if(categoriaRepository.existsById(id)){
             categoriaRepository.deleteById(id);
-        }else{
+        }
+        else{
             throw new CustomNotFoundException("Categoria com id '" + id + "' não foi encontrada");
         }
     }

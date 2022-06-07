@@ -83,6 +83,7 @@ public class ClienteService {
         if(clienteRepository.findByCpf(cpf).isPresent()){
             cliente.setId(clienteRepository.findByCpf(cpf).get().getId());  
             enderecoService.buscar(clienteInserirDTO.getCep());     
+            
             cliente.setNome(clienteInserirDTO.getNome());
             cliente.setCpf(clienteInserirDTO.getCpf());
             cliente.setEmail(clienteInserirDTO.getEmail());
