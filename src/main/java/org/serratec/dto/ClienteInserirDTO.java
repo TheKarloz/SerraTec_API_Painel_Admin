@@ -3,6 +3,7 @@ package org.serratec.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
 import org.serratec.model.Cliente;
@@ -10,6 +11,7 @@ import org.serratec.model.Cliente;
 public class ClienteInserirDTO {
     
     @NotBlank
+    @Size(max = 40, min = 2)
     private String nome;
    
     @NotBlank
@@ -17,6 +19,7 @@ public class ClienteInserirDTO {
     private String cpf;
 
     @NotBlank
+    @Size(max = 40)
     @Email(message = "E-mail inválido")
     private String email;
     

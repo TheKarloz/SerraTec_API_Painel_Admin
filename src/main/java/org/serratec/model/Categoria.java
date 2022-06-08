@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,6 +25,7 @@ public class Categoria {
     
     @NotBlank
     @Column(name = "nome_categoria", nullable = false, length = 40)
+    @Size(max = 40, min = 3)
     private String nome;
 
     @JsonIgnore

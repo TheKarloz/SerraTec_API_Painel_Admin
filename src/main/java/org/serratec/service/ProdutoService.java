@@ -3,7 +3,7 @@ package org.serratec.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.serratec.dto.ProdutoSelectDTO;
+import org.serratec.dto.ProdutoDTO;
 import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 import org.serratec.exception.ProdutoException;
@@ -23,15 +23,15 @@ public class ProdutoService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    public List<ProdutoSelectDTO> listar(){
+    public List<ProdutoDTO> listar(){
         if(produtoRepository.findAll().isEmpty()){
             throw new CustomNoContentException("");
         }
         List<Produto> produtos = produtoRepository.findAll();     
-        return produtos.stream().map(produto -> new ProdutoSelectDTO(produto)).collect(Collectors.toList());
+        return produtos.stream().map(produto -> new ProdutoDTO(produto)).collect(Collectors.toList());
     }
     
-    public ProdutoSelectDTO inserir(ProdutoInserirDTO produtoInserirDTO){
+    public ProdutoDTO inserir(ProdutoInserirDTO produtoInserirDTO){
         Produto produto = new Produto();
         produto.setNome(produtoInserirDTO.getNome().toUpperCase());
         produto.setValorUnitario(produtoInserirDTO.getValorUnitario());
@@ -47,7 +47,7 @@ public class ProdutoService {
 
         produto = produtoRepository.save(produto);
 
-        return new ProdutoSelectDTO(produto);
+        return new ProdutoDTO(produto);
     }
 
     public Produto atualizar(Produto produto, Long id){

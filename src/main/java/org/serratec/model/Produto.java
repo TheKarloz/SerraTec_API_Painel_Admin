@@ -16,6 +16,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "produto")
@@ -28,6 +29,7 @@ public class Produto {
     
     @NotBlank
     @Column(name = "nome_produto", length = 40, nullable = false)
+    @Size(max = 40, min = 3)
     private String nome;
     
     @DecimalMin(value = "0.0")

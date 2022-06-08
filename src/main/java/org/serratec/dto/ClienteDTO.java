@@ -3,7 +3,7 @@ package org.serratec.dto;
 import org.serratec.model.Cliente;
 import org.serratec.model.Endereco;
 
-public class ClienteSelectDTO {
+public class ClienteDTO {
 
     private String nome;
     private String cpf;
@@ -12,11 +12,11 @@ public class ClienteSelectDTO {
     
     //private List<Pedido> pedidos;
     
-    public ClienteSelectDTO(){
+    public ClienteDTO(){
 
     }
 
-    public ClienteSelectDTO(Cliente cliente){
+    public ClienteDTO(Cliente cliente){
         this.nome = cliente.getNome();
         this.cpf = cliente.getCpf();
         this.email = cliente.getEmail();

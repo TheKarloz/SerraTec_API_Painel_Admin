@@ -37,19 +37,39 @@ public class PedidoProdutoController {
 
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 204, message = "Sem conteúdo"),
         @ApiResponse(code = 401 , message = "Não autorizado"),
         @ApiResponse(code = 403, message = "Proibido acesso"),
-        @ApiResponse(code = 404, message = "Não encontrado"),
         @ApiResponse(code = 500, message = "Erro no servidor")
     })
-
     @GetMapping
     @ApiOperation(value = "Lista pedido_itens", notes = "Listagem de pedido_itens")
-    public ResponseEntity<List<PedidoProdutoSelectDTO>> listar() throws CustomNoContentException{
+    public ResponseEntity<Object> listar() throws CustomNoContentException{
         List<PedidoProdutoSelectDTO> pedidoProdutosDTO = pedidoProdutoService.listar();
         return ResponseEntity.ok(pedidoProdutosDTO);
     }
+    
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 404 , message = "Não encontrado"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
+    @GetMapping("/{id}")
+    @ApiOperation(value = "Lista pedido por id", notes = "Listagem de pedidos por id")
+    public ResponseEntity<Object> buscarPorId(@PathVariable Long id) throws CustomNotFoundException{
+        PedidoProduto pedidoProduto = pedidoProdutoService.buscarPorId(id);
+        return ResponseEntity.ok(pedidoProduto);
+    }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 202, message = "Criado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @PostMapping
     @ApiOperation(value = "Cadastrar um pedido_item", notes = "Cadastra um pedido_item")
     public ResponseEntity<Object> inserir(@Valid @RequestBody PedidoProdutoInserirDTO pedidoProdutoDTO) 
@@ -58,6 +78,14 @@ public class PedidoProdutoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedProdDTO);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 202, message = "Criado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 404 , message = "Não Encontrado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @PutMapping("{id}")
     @ApiOperation(value = "Atualizar peido_item", notes = "Atualiza um pedido_item")
     @ResponseStatus(HttpStatus.CREATED)
@@ -68,6 +96,13 @@ public class PedidoProdutoController {
         return ResponseEntity.ok().body(PedidoProduto);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 404 , message = "Não Encontrado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Deletar pedido_item", notes = "Deleta pedido_itens por id")
     public ResponseEntity<Object> deletar(@PathVariable Long id) throws CustomNotFoundException{

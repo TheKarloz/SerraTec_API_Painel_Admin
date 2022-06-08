@@ -6,12 +6,14 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.serratec.model.Categoria;
 
 public class ProdutoInserirDTO {
     
     @NotBlank
+    @Size(max = 40, min = 3)
     private String nome;
     
     @NotNull

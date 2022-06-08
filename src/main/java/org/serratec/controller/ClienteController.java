@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.serratec.dto.ClienteSelectDTO;
+import org.serratec.dto.ClienteDTO;
 import org.serratec.dto.ClienteInserirDTO;
 import org.serratec.exception.CpfException;
 import org.serratec.exception.CustomNoContentException;
@@ -35,21 +35,28 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+    
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 204, message = "Sem conteúdo"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
+    @GetMapping
+    @ApiOperation(value = "Lista todos os clientes", notes = "Listagem de clientes")
+    public ResponseEntity<Object> listarTodos() throws CustomNoContentException{
+        List<ClienteDTO> clientes = clienteService.listar();
+        return ResponseEntity.ok(clientes);
+    }
+
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Retornado com sucesso"),
         @ApiResponse(code = 401 , message = "Não autorizado"),
         @ApiResponse(code = 403, message = "Proibido acesso"),
-        @ApiResponse(code = 404, message = "Não encontrado"),
+        @ApiResponse(code = 404 , message = "Não encontrado"),
         @ApiResponse(code = 500, message = "Erro no servidor")
     })
-
-    @GetMapping
-    @ApiOperation(value = "Lista todos os clientes", notes = "Listagem de clientes")
-    public ResponseEntity<Object> listarTodos() throws CustomNoContentException{
-        List<ClienteSelectDTO> clientes = clienteService.listar();
-        return ResponseEntity.ok(clientes);
-    }
-
     @GetMapping("/{cpf}")
     @ApiOperation(value = "Lista cliente por cpf", notes = "Listagem de clientes por cpf")
     public ResponseEntity<Object> buscarPorCpf(@PathVariable String cpf)throws CustomNotFoundException{
@@ -58,24 +65,46 @@ public class ClienteController {
         return ResponseEntity.ok(cliente);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 202, message = "Criado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @PostMapping
     @ApiOperation(value = "Cadastra cliente", notes = "Cadastrar clientes")
     public ResponseEntity<Object> inserir(@Valid @RequestBody ClienteInserirDTO clienteInserirDTO)
     throws EmailException, CpfException, CustomNotFoundException{
         
-        ClienteSelectDTO clienteDTO = clienteService.inserir(clienteInserirDTO);
+        ClienteDTO clienteDTO = clienteService.inserir(clienteInserirDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteDTO);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 202, message = "Criado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 404 , message = "Não Encontrado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @PutMapping("/{cpf}")
     @ApiOperation(value = "Atualizar cliente por cpf", notes = "Atualiza cliente por cpf")
     public ResponseEntity<Object> atualizar(@Valid @RequestBody ClienteInserirDTO clienteInserirDTO, 
     @PathVariable String cpf) throws CustomNotFoundException{
         
-        ClienteSelectDTO clienteDTO = clienteService.atualizar(clienteInserirDTO, cpf);
+        ClienteDTO clienteDTO = clienteService.atualizar(clienteInserirDTO, cpf);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteDTO);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 404 , message = "Não Encontrado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @DeleteMapping("/{cpf}")
     @ApiOperation(value = "Deletar cliente por cpf", notes = "Delta cliente por cpf")
     public ResponseEntity<Object> deletar(@PathVariable String cpf) throws CustomNotFoundException{

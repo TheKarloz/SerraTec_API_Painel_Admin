@@ -21,12 +21,12 @@ public class EnderecoController {
     private EnderecoService enderecoService;
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 400, message = "Erro de requisição"),
         @ApiResponse(code = 401 , message = "Não autorizado"),
         @ApiResponse(code = 403, message = "Proibido acesso"),
         @ApiResponse(code = 404, message = "Não encontrado"),
         @ApiResponse(code = 500, message = "Erro no servidor")
     })
-
     @GetMapping("{cep}")
     @ApiOperation(value = "Lista e cadastra endereço", notes = "Lista e cadastra endereço verificando no ViaCep")
     public ResponseEntity<EnderecoDTO> buscar(@PathVariable String cep){

@@ -39,6 +39,11 @@ public class PedidoProdutoService {
         }
     }
 
+    public PedidoProduto buscarPorId(Long id){
+        return pedidoProdutoRepository.findById(id)
+            .orElseThrow(() -> new CustomNotFoundException("Pedido com id '" + id + "' não foi encontrado"));
+    }
+
     public PedidoProdutoInserirDTO inserir(PedidoProdutoInserirDTO pedidoProdutoDTO){
         PedidoProduto pedidoProduto = new PedidoProduto();
         

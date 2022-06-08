@@ -31,14 +31,14 @@ public class CategoriaController {
 
     @Autowired
     private CategoriaService categoriaService;
+    
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 204, message = "Sem conteúdo"),
         @ApiResponse(code = 401 , message = "Não autorizado"),
         @ApiResponse(code = 403, message = "Proibido acesso"),
-        @ApiResponse(code = 404, message = "Não encontrado"),
         @ApiResponse(code = 500, message = "Erro no servidor")
-    })
-   
+    })  
     @GetMapping
     @ApiOperation(value = "Lista todos as categorias", notes = "Listagem de categorias")
     public ResponseEntity<Object> listar() throws CustomNoContentException{
@@ -46,6 +46,13 @@ public class CategoriaController {
         return ResponseEntity.ok(categorias);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 404 , message = "Não encontrado"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @GetMapping("/id/{id}")
     @ApiOperation(value = "Lista categoria por id", notes = "Listagem de categorias por id")
     public ResponseEntity<Object> buscarPorId(@PathVariable Long id) throws CustomNotFoundException{
@@ -54,6 +61,13 @@ public class CategoriaController {
 
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 404 , message = "Não encontrado"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @GetMapping("/{nomeCategoria}")
     @ApiOperation(value = "Lista categoria por nome", notes = "Listagem de categorias por nome")
     public ResponseEntity<Object> buscarPorNome(@PathVariable String nomeCategoria)throws CustomNotFoundException{
@@ -62,6 +76,13 @@ public class CategoriaController {
 
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 202, message = "Criado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @PostMapping
     @ApiOperation(value = "Inserir categoria", notes = "Insere uma categoria")
     public ResponseEntity<Object> inserir(@Valid @RequestBody Categoria categoria)throws CategoriaException{
@@ -70,6 +91,14 @@ public class CategoriaController {
 
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 202, message = "Criado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 404 , message = "Não Encontrado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar categoria por id", notes = "Atualizar uma categoria por id")
     public ResponseEntity<Object> atualizar(@Valid @RequestBody Categoria categoria, @PathVariable Long id)
@@ -79,6 +108,13 @@ public class CategoriaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoria);
     }
 
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Retornado com sucesso"),
+        @ApiResponse(code = 401 , message = "Não autorizado"),
+        @ApiResponse(code = 404 , message = "Não Encontrado"),
+        @ApiResponse(code = 403, message = "Proibido acesso"),
+        @ApiResponse(code = 500, message = "Erro no servidor")
+    })
     @DeleteMapping("/{id}")
     @ApiOperation(value = "Deletar categoria por id", notes = "Deleta uma categoria por id")
     public ResponseEntity<Object> deletar(@PathVariable Long id) throws CustomNotFoundException{

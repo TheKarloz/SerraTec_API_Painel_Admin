@@ -3,10 +3,10 @@ package org.serratec.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.mail.MessagingException;
+//import javax.mail.MessagingException;
 
-import org.serratec.dto.ClienteSelectDTO;
-import org.serratec.config.MailConfig;
+import org.serratec.dto.ClienteDTO;
+//import org.serratec.config.MailConfig;
 import org.serratec.dto.ClienteInserirDTO;
 import org.serratec.exception.CpfException;
 import org.serratec.exception.CustomNoContentException;
@@ -30,31 +30,36 @@ public class ClienteService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    @Autowired
-    private MailConfig mailConfig;
+    // @Autowired
+    // private MailConfig mailConfig;
 
 
     //LISTAR TODOS OS CLIENTES CADASTRADOS
-    public List<ClienteSelectDTO> listar(){
+    public List<ClienteDTO> listar(){
         if(clienteRepository.findAll().isEmpty()){
             throw new CustomNoContentException(null);
         }     
         List<Cliente> clientes = clienteRepository.findAll();
-        return clientes.stream().map(cliente -> new ClienteSelectDTO(cliente)).collect(Collectors.toList());
+        return clientes.stream().map(cliente -> new ClienteDTO(cliente)).collect(Collectors.toList());
     }
 
     //LISTAR CLIENTE POR CPF
     public Cliente buscarPorCpf(String cpf){     
-            return clienteRepository.findByCpf(cpf)
-                .orElseThrow(() -> new CustomNotFoundException("Cliente com cpf'"+cpf+"' não foi encontrada"));
+        if(clienteRepository.findByCpf(cpf) != null){
+            return clienteRepository.findByCpf(cpf);
+        }
+        else{
+            throw new CustomNotFoundException("Cliente com cpf'"+cpf+"' não foi encontrado");
+        }
+
     }
 
     //CADASTRAR CLIENTE
-    public ClienteSelectDTO inserir(ClienteInserirDTO clienteInserirDTO){
+    public ClienteDTO inserir(ClienteInserirDTO clienteInserirDTO){
         if(clienteRepository.findByEmail(clienteInserirDTO.getEmail()) != null){
             throw new EmailException("Email já cadastrado!");
         }
-        else if(clienteRepository.findByCpf(clienteInserirDTO.getCpf()) == null){
+        else if(clienteRepository.findByCpf(clienteInserirDTO.getCpf()) != null){
             throw new CpfException("Cpf já cadastrado!");
         }
 
@@ -71,17 +76,18 @@ public class ClienteService {
         //     mailConfig.enviarEmailHTML(cliente.getEmail(), "Cadastro de cliente!",
         //     emailCadastro(clienteInserirDTO.getNome(), clienteInserirDTO.getEmail()));
         // } catch (MessagingException e) {
-        //     e.printStackTrace();
+        //     e.getMessage();
         // }
 
-        return new ClienteSelectDTO(cliente);
+        return new ClienteDTO(cliente);
     }
 
     //ATUALIZAR CLIENTE POR CPF
-    public ClienteSelectDTO atualizar(ClienteInserirDTO clienteInserirDTO, String cpf){
+    public ClienteDTO atualizar(ClienteInserirDTO clienteInserirDTO, String cpf){
         Cliente cliente = new Cliente();
-        if(clienteRepository.findByCpf(cpf).isPresent()){
-            cliente.setId(clienteRepository.findByCpf(cpf).get().getId());  
+        if(clienteRepository.findByCpf(cpf) != null){
+            cliente.setId(clienteRepository.findByCpf(cpf).getId()); 
+            clienteRepository.deleteByCpf(cpf); 
             enderecoService.buscar(clienteInserirDTO.getCep());     
             
             cliente.setNome(clienteInserirDTO.getNome());
@@ -90,13 +96,13 @@ public class ClienteService {
             cliente.setEndereco(enderecoRepository.findByCep(clienteInserirDTO.getCep())); 
             clienteRepository.save(cliente);             
             
-            try {
-                mailConfig.enviarEmailHTML(cliente.getEmail(), "Atualização de cadastro!",
-                 emailAtualizarCadastro(cliente.getNome(), cliente.getEmail()));
-            } catch (MessagingException e) {
-                e.getMessage();
-            }   
-            return new ClienteSelectDTO(cliente);        
+            // try {
+            //     mailConfig.enviarEmailHTML(cliente.getEmail(), "Atualização de cadastro!",
+            //      emailAtualizarCadastro(cliente.getNome(), cliente.getEmail()));
+            // } catch (MessagingException e) {
+            //     e.getMessage();
+            // }   
+            return new ClienteDTO(cliente);        
         }   
                    
 	 	throw new CustomNotFoundException("Cliente com cpf '" + cpf + "' não foi encontrado");
@@ -104,7 +110,7 @@ public class ClienteService {
 
     //DELETAR CLIENTE POR CPF
     public void deletar(String cpf){
-        if(clienteRepository.findByCpf(cpf).isPresent()){
+        if(clienteRepository.findByCpf(cpf) != null){
             clienteRepository.deleteByCpf(cpf);
         }else{
             throw new CustomNotFoundException("Cliente com cpf '" + cpf + "' não foi encontrado");

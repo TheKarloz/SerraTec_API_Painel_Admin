@@ -32,7 +32,7 @@ public class Cliente {
     
     @NotBlank
     @Email(message = "E-mail inválido")
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, length = 40)
     private String email;
     
     @NotNull
