@@ -10,7 +10,6 @@ public class ClienteDTO {
     private String email;
     private Endereco endereco;
     
-    //private List<Pedido> pedidos;
     
     public ClienteDTO(){
 

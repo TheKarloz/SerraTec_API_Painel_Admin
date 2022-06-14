@@ -1,6 +1,5 @@
 package org.serratec.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,12 +21,12 @@ public class PedidoProduto {
     @Column(name = "id_pedido_produto")
     @JsonIgnore
     private Long id;
-    
+
     @NotNull
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "id_pedido")
     private Pedido pedido;
-    
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "id_produto")
@@ -38,7 +37,7 @@ public class PedidoProduto {
     
     @Column(name = "perc_desconto", nullable = false)
     private double percDesconto;
- 
+
     public Long getId() {
         return id;
     }
@@ -69,6 +68,4 @@ public class PedidoProduto {
     public void setQuantidadeProduto(Long quantidadeProduto) {
         this.quantidadeProduto = quantidadeProduto;
     }
-
-         
 }

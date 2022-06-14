@@ -39,13 +39,18 @@ public class PedidoService {
     }
 
     public PedidoInserirDTO inserir(PedidoInserirDTO pedidoInserirDTO){
-        Pedido pedido = new Pedido();
-        pedido.setCliente(clienteRepository.findByCpf(pedidoInserirDTO.getCpf()));
-        pedido.setStatus(pedidoInserirDTO.getStatus());
         if(pedidoInserirDTO.getCpf() == null){
             throw new PedidoException("Você deve informar o cpf do cliente"
             + " o qual deseja relacionar com o pedido");
         }
+        if(clienteRepository.findByCpf(pedidoInserirDTO.getCpf()) == null){
+            throw new CustomNotFoundException("O cpf informado não pertence a nenhum cliente cadastrado");
+        }
+        
+        Pedido pedido = new Pedido();
+        
+        pedido.setCliente(clienteRepository.findByCpf(pedidoInserirDTO.getCpf()));
+        pedido.setStatus(pedidoInserirDTO.getStatus());
 
         pedido = pedidoRepository.save(pedido);
 
@@ -55,13 +60,17 @@ public class PedidoService {
     public PedidoDTO atualizar(PedidoInserirDTO pedidoInserirDTO, Long id){
         Pedido pedido = new Pedido();
         if(pedidoRepository.existsById(id)){
+            if(pedidoInserirDTO.getCpf() == null){
+                throw new PedidoException("Você deve informar o cpf do cliente"
+                + " o qual deseja relacionar com o pedido");
+            }
+            if(clienteRepository.findByCpf(pedidoInserirDTO.getCpf()) == null){
+                throw new CustomNotFoundException("O cpf informado não pertence a nenhum cliente cadastrado");
+            }
+            
             pedido.setId(id);
             pedido.setCliente(clienteRepository.findByCpf(pedidoInserirDTO.getCpf()));
             pedido.setStatus(pedidoInserirDTO.getStatus());
-            if(pedido.getCliente().getId() == null){
-                throw new PedidoException("Você deve informar o id do cliente"
-            + " o qual deseja relacionar com o pedido");
-            }
             pedidoRepository.save(pedido);
 
             return new PedidoDTO(pedido);

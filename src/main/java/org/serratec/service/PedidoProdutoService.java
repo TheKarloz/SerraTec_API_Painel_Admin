@@ -8,7 +8,6 @@ import org.serratec.dto.PedidoProdutoSelectDTO;
 import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 import org.serratec.exception.PedidoProdutoException;
-//import org.serratec.exception.PedidoProdutoException;
 import org.serratec.model.PedidoProduto;
 import org.serratec.repository.ClienteRepository;
 import org.serratec.repository.PedidoProdutoRepository;
@@ -41,7 +40,7 @@ public class PedidoProdutoService {
 
     public PedidoProduto buscarPorId(Long id){
         return pedidoProdutoRepository.findById(id)
-            .orElseThrow(() -> new CustomNotFoundException("Pedido com id '" + id + "' não foi encontrado"));
+            .orElseThrow(() -> new CustomNotFoundException("Pedido com id '" + id + "' não foi encontradozzzzzz"));
     }
 
     public PedidoProdutoInserirDTO inserir(PedidoProdutoInserirDTO pedidoProdutoDTO){
@@ -49,10 +48,6 @@ public class PedidoProdutoService {
         
         if(!produtoRepository.findById(pedidoProdutoDTO.getProduto().getId()).isPresent()){
             throw new PedidoProdutoException("Produto com id '"+pedidoProdutoDTO.getProduto().getId() +
-            "' não existe");
-        }
-        if(!clienteRepository.findById(pedidoProdutoDTO.getPedido().getCliente().getId()).isPresent()){
-            throw new PedidoProdutoException("Cliente com id '"+ pedidoProdutoDTO.getProduto().getId() +
             "' não existe");
         }
         
@@ -93,5 +88,4 @@ public class PedidoProdutoService {
             throw new CustomNotFoundException("Pedido com id '"+id+"' não encontrado");
         }
     }
-
 }
