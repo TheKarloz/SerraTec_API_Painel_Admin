@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 
 import java.util.List;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -33,6 +34,7 @@ public class Pedido{
     
     @NotNull
     @OneToOne
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
     @JsonIgnore

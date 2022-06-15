@@ -13,12 +13,12 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "pedido_produto")
+@Table(name = "pedido_item")
 public class PedidoProduto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pedido_produto")
+    @Column(name = "id_pedido_item")
     @JsonIgnore
     private Long id;
 
