@@ -11,15 +11,22 @@ public class ProdutoDTO {
     private String nome;
     private BigDecimal valorUnitario;
     private Categoria categoria;
+    private String foto;
     
     public ProdutoDTO(Produto produto){
         this.id = produto.getId();
         this.nome = produto.getNome();
         this.valorUnitario = produto.getValorUnitario();
         this.categoria = produto.getCategoria();
+        this.foto = produto.getFoto();
     }
 
-
+    public String getFoto() {
+        return foto;
+    }
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
     public Long getId() {
         return id;
     }

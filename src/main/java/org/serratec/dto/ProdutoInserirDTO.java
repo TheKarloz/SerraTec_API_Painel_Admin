@@ -23,7 +23,15 @@ public class ProdutoInserirDTO {
     
     @NotNull
     private Categoria categoria;
-    
+
+    private String foto;
+
+    public String getFoto() {
+        return foto;
+    }
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
     public String getNome() {
         return nome;
     }

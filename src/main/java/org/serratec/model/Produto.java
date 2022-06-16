@@ -42,9 +42,26 @@ public class Produto {
     @JoinColumn(name = "id_categoria")
     private Categoria categoria;
 
+    private String foto;
+
     @OneToMany(mappedBy = "produto")
     private List<PedidoProduto> pedidoProduto;
     
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public List<PedidoProduto> getPedidoProduto() {
+        return pedidoProduto;
+    }
+
+    public void setPedidoProduto(List<PedidoProduto> pedidoProduto) {
+        this.pedidoProduto = pedidoProduto;
+    }
 
     public Long getId() {
         return id;

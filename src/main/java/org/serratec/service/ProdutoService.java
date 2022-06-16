@@ -36,6 +36,7 @@ public class ProdutoService {
         produto.setNome(produtoInserirDTO.getNome().toUpperCase());
         produto.setValorUnitario(produtoInserirDTO.getValorUnitario());
         produto.setCategoria(produtoInserirDTO.getCategoria());
+        produto.setFoto(produtoInserirDTO.getFoto());
         
         if(produtoInserirDTO.getCategoria().getId() == null){
             throw new ProdutoException("Você deve informar o id da categoria"
@@ -56,6 +57,7 @@ public class ProdutoService {
             produto.setNome(produto.getNome().toUpperCase());
             produto.setValorUnitario(produto.getValorUnitario());
             produto.setCategoria(produto.getCategoria());
+            produto.setFoto(produto.getFoto());
 
             if(produto.getCategoria().getId() == null){
                 throw new ProdutoException("Você deve informar o id da categoria"
