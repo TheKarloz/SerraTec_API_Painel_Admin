@@ -8,8 +8,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.serratec.model.Categoria;
-
 public class ProdutoInserirDTO {
     
     @NotBlank
@@ -22,7 +20,7 @@ public class ProdutoInserirDTO {
     private BigDecimal valorUnitario;
     
     @NotNull
-    private Categoria categoria;
+    private String categoria;
 
     private String foto;
 
@@ -44,10 +42,10 @@ public class ProdutoInserirDTO {
     public void setValorUnitario(BigDecimal valorUnitario) {
         this.valorUnitario = valorUnitario;
     }
-    public Categoria getCategoria() {
+    public String getCategoria() {
         return categoria;
     }
-    public void setCategoria(Categoria categoria) {
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 }

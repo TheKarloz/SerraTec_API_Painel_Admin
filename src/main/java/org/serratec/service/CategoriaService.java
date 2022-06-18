@@ -6,7 +6,9 @@ import org.serratec.exception.CategoriaException;
 import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 import org.serratec.model.Categoria;
+import org.serratec.model.Produto;
 import org.serratec.repository.CategoriaRepository;
+import org.serratec.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class CategoriaService {
     
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
     //LISTA TODAS AS CATEGORIAS CADASTRADAS
     public List<Categoria> listar(){
@@ -31,11 +36,11 @@ public class CategoriaService {
     }
 
     //BUSCA CATEGORIA POR NOME
-    public Categoria buscarPorNome(String nomeCategoria){
+    public List<Produto> buscarPorNome(String nomeCategoria){
         if(categoriaRepository.findByNome(nomeCategoria) == null){
             throw new CategoriaException("Categoria '" + nomeCategoria + "' não foi encontrada");
         }
-        return categoriaRepository.findByNome(nomeCategoria);
+        return produtoRepository.findByCategoria(categoriaRepository.findByNome(nomeCategoria));
     }
 
     //CADASTRA CATEGORIAS

@@ -8,6 +8,7 @@ import org.serratec.exception.CategoriaException;
 import org.serratec.exception.CustomNoContentException;
 import org.serratec.exception.CustomNotFoundException;
 import org.serratec.model.Categoria;
+import org.serratec.model.Produto;
 import org.serratec.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,7 +74,7 @@ public class CategoriaController {
     @GetMapping("/{nomeCategoria}")
     @ApiOperation(value = "Lista categoria por nome", notes = "Listagem de categorias por nome")
     public ResponseEntity<Object> buscarPorNome(@PathVariable String nomeCategoria)throws CustomNotFoundException{
-        Categoria categoria = categoriaService.buscarPorNome(nomeCategoria.toUpperCase());
+        List<Produto> categoria = categoriaService.buscarPorNome(nomeCategoria.toUpperCase());
         return ResponseEntity.ok(categoria);
 
     }

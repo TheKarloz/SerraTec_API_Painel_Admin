@@ -35,16 +35,17 @@ public class ProdutoService {
         Produto produto = new Produto();
         produto.setNome(produtoInserirDTO.getNome().toUpperCase());
         produto.setValorUnitario(produtoInserirDTO.getValorUnitario());
-        produto.setCategoria(produtoInserirDTO.getCategoria());
+        produto.setCategoria(categoriaRepository.findByNome(produtoInserirDTO.getCategoria().toUpperCase()));
         produto.setFoto(produtoInserirDTO.getFoto());
         
-        if(produtoInserirDTO.getCategoria().getId() == null){
-            throw new ProdutoException("Você deve informar o id da categoria"
+        if(produtoInserirDTO.getCategoria() == null){
+            throw new ProdutoException("Você deve informar a categoria"
             + " a qual deseja relacionar com o produto");
         }
-        categoriaRepository.findById(produtoInserirDTO.getCategoria().getId())
-        .orElseThrow(() -> new ProdutoException("Categoria com id '" + produtoInserirDTO.getCategoria().getId()
-        + "' não encontrada"));
+        if(categoriaRepository.findByNome(produtoInserirDTO.getCategoria()) == null){
+            throw new ProdutoException("Categoria com nome '" + produtoInserirDTO.getCategoria()
+            + "' não encontrada");
+        }
 
         produto = produtoRepository.save(produto);
 
