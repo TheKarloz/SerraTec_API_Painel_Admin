@@ -79,10 +79,10 @@ public class ProdutoController {
     })
     @PutMapping("/{id}")
     @ApiOperation(value = "Atualizar produto", notes = "Atualiza um produto por id")
-    public ResponseEntity<Object> atualizar(@Valid @RequestBody Produto produto, @PathVariable Long id)
+    public ResponseEntity<Object> atualizar(@Valid @RequestBody ProdutoInserirDTO produtoInserirDTO, @PathVariable Long id)
     throws ProdutoException, CustomNotFoundException{
         
-        produto = produtoService.atualizar(produto, id);
+        Produto produto = produtoService.atualizar(produtoInserirDTO, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(produto);
     }
 

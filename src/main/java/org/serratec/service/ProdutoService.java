@@ -52,21 +52,23 @@ public class ProdutoService {
         return new ProdutoDTO(produto);
     }
 
-    public Produto atualizar(Produto produto, Long id){
+    public Produto atualizar(ProdutoInserirDTO produtoInserirDTO, Long id){
         if(produtoRepository.existsById(id)){
+            Produto produto = new Produto();
             produto.setId(id);
-            produto.setNome(produto.getNome().toUpperCase());
-            produto.setValorUnitario(produto.getValorUnitario());
-            produto.setCategoria(produto.getCategoria());
-            produto.setFoto(produto.getFoto());
+            produto.setNome(produtoInserirDTO.getNome().toUpperCase());
+            produto.setValorUnitario(produtoInserirDTO.getValorUnitario());
+            produto.setCategoria(categoriaRepository.findByNome(produtoInserirDTO.getCategoria().toUpperCase()));
+            produto.setFoto(produtoInserirDTO.getFoto());
 
-            if(produto.getCategoria().getId() == null){
-                throw new ProdutoException("Você deve informar o id da categoria"
+            if(produtoInserirDTO.getCategoria() == null){
+                throw new ProdutoException("Você deve informar a categoria"
                 + " a qual deseja relacionar com o produto");
             }
-            categoriaRepository.findById(produto.getCategoria().getId())
-            .orElseThrow(() -> new ProdutoException("Categoria com id '" + produto.getCategoria().getId()
-            + "' não encontrada"));
+            if(categoriaRepository.findByNome(produtoInserirDTO.getCategoria()) == null){
+                throw new ProdutoException("Categoria com nome '" + produtoInserirDTO.getCategoria()
+                + "' não encontrada");
+            }
 
             return produtoRepository.save(produto);
         }   

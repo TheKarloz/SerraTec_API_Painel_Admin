@@ -3,7 +3,6 @@ package org.serratec.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +28,8 @@ public class Categoria {
     private String nome;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "categoria",cascade = CascadeType.REMOVE, orphanRemoval = true)  
+    @OneToMany(mappedBy = "categoria") 
+    // ,cascade = CascadeType.REMOVE, orphanRemoval = true 
     private List<Produto> produtos;
 
     
